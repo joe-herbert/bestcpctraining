@@ -17,7 +17,7 @@ html
                 if booking.milliseconds < today && past == false
                     - past = true
                     h4 Past
-                else if upcoming == false
+                else if booking.milliseconds >= today && upcoming == false
                     - upcoming = true
                     h4 Upcoming
                     a.button(href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf") How to join my course

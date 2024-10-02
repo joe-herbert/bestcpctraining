@@ -340,7 +340,6 @@ router.get("/account", user, (req, res) => {
                     attributes: ["code", "name"],
                 },
             },
-            order: [[models.Booking, "date", "ASC"]],
         },
     })
         .then((user) => {
@@ -366,6 +365,10 @@ router.get("/account", user, (req, res) => {
                     name: booking.Course.CourseType.name,
                 };
             });
+            bookings.sort((a, b) => {
+                return a.milliseconds - b.milliseconds;
+            });
+            console.log(bookings);
             //get all courses which could be rearranged to
             let today = new Date();
             today.setTime(today.getTime() + 60 * 60 * 1000);
