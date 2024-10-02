@@ -75,17 +75,25 @@ router.get("/", (req, res) => {
             });
         })
         .catch((err) => {
-		console.error(err);
+            console.error(err);
             res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
         });
 });
 
 router.get("/login", (req, res) => {
-    res.render("login", { email: req.query.email, title: "Login" });
+    if (req.session.user) {
+        res.redirect("/account");
+    } else {
+        res.render("login", { email: req.query.email, title: "Login" });
+    }
 });
 
 router.get("/register", (req, res) => {
-    res.render("register", { title: "Register" });
+    if (req.session.user) {
+        res.redirect("/account");
+    } else {
+        res.render("register", { title: "Register" });
+    }
 });
 
 router.post("/login", (req, res) => {
@@ -143,8 +151,8 @@ router.post("/register", (req, res) => {
                     } else {
                         let userObj = {
                             email: req.body.email,
-                            firstName: req.body.firstName,
-                            surname: req.body.surname,
+                            firstName: req.body.firstName.toUpperCase(),
+                            surname: req.body.surname.toUpperCase(),
                             password: hash,
                             licenseNumber: req.body.licenseNumber,
                             hgvLicense: req.body.hgvLicense,
@@ -177,8 +185,8 @@ router.post("/register", (req, res) => {
 router.post("/updateUser", user, (req, res) => {
     models.User.update(
         {
-            firstName: req.body.firstName,
-            surname: req.body.surname,
+            firstName: req.body.firstName.toUpperCase(),
+            surname: req.body.surname.toUpperCase(),
             licenseNumber: req.body.licenseNumber,
             hgvLicense: req.body.hgvLicense,
             pcvLicense: req.body.pcvLicense,
@@ -292,7 +300,7 @@ router.post("/forgotPassword", async (req, res) => {
         from: USER_EMAIL,
         to: req.body.email,
         subject: "Your new password - Best CPC Training",
-        html: `<body style="padding: 30px; box-sizing: border-box; width: 100%;"><img style="width: 300px; display: block; max-width:80%; margin: 0 auto;" src="${req.protocol + "://" + req.hostname}/imgs/logo.png"><br><h1 style="text-align: center;">Your temporary password is here!</h1><br><p><b>Your temporary password is: </b>${newPassword}<br>You should <a href="${req.protocol + "://" + req.hostname}/login">log in</a> and change your password as soon as you can.</p><p>Please do not hesitate to <a href="${req.protocol + "://" + req.hostname}/contact">contact us</a> if you have any issues!</p></body>`,
+        html: `<body style="padding: 30px; box-sizing: border-box; width: 100%;"><img style="width: 300px; display: block; max-width:80%; margin: 0 auto;" src="${req.protocol + "://" + req.hostname}/imgs/logo.png"><br><h1 style="text-align: center;">Your temporary password is here!</h1><br><p><b>Your temporary password is: </b>${newPassword}<br>You should <a href="${req.protocol + "://" + req.hostname}/login">log in</a> and change your password immediately.</p><p>Please do not hesitate to <a href="${req.protocol + "://" + req.hostname}/contact">contact us</a> if you have any issues!</p></body>`,
     };
 
     let transporter = await createTransporter();
@@ -400,12 +408,12 @@ router.get("/account", user, (req, res) => {
                     });
                 })
                 .catch((err) => {
-			console.error(err);
+                    console.error(err);
                     res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
                 });
         })
         .catch((err) => {
-			console.error(err);
+            console.error(err);
             res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
         });
 });
@@ -959,8 +967,8 @@ router.post("/completeOrder", async (req, res) => {
             },
             defaults: {
                 email: json.payer.email_address,
-                firstName: json.payer.name.given_name,
-                surname: json.payer.name.surname,
+                firstName: json.payer.name.given_name.toUpperCase(),
+                surname: json.payer.name.surname.toUpperCase(),
                 password: hash,
             },
         });
@@ -1026,19 +1034,21 @@ router.post("/completeOrder", async (req, res) => {
             },
         ],
     };
-    json.responseHtml = mailOptions.html + `<p>You will receive a confirmation email shortly with a copy of the PDF document below.</p><a class="button" href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf", style="display: block; margin: 0 auto;">DOWNLOAD PDF</a>`;
+    json.responseHtml =
+        mailOptions.html +
+        `<p>You will receive a confirmation email shortly with a copy of the PDF document below.</p><a class="button" href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf", style="display: block; margin: 0 auto;">DOWNLOAD PDF</a>`;
     let transporter = await createTransporter();
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-	    console.error(error);
+            console.error(error);
             res.status(500).json({
                 error: `There was an error sending your confirmation email${sendErr(error.message)}. Your booking has been reserved and paid for. Please contact us and reference your order ID: ${json.id}`,
                 json: json,
             });
         } else {
-		console.log(json);
+            console.log(json);
             console.log("Email sent: " + info.response);
-	    res.send(json);
+            res.send(json);
         }
     });
 });
@@ -1053,43 +1063,39 @@ function generateTable(courses) {
     return html;
 }
 
- const createTransporter = async () => {
-   try {
-     const oauth2Client = new OAuth2(
-         CLIENT_ID,
-         CLIENT_SECRET,
-         "https://developers.google.com/oauthplayground"
-       );
+const createTransporter = async () => {
+    try {
+        const oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, "https://developers.google.com/oauthplayground");
 
-       oauth2Client.setCredentials({
-         refresh_token: REFRESH_TOKEN,
-       });
+        oauth2Client.setCredentials({
+            refresh_token: REFRESH_TOKEN,
+        });
 
-       const accessToken = await new Promise((resolve, reject) => {
-         oauth2Client.getAccessToken((err, token) => {
-           if (err) {
-             console.log("*ERR: ", err)
-             reject();
-           }
-           resolve(token); 
-         });
-       });
+        const accessToken = await new Promise((resolve, reject) => {
+            oauth2Client.getAccessToken((err, token) => {
+                if (err) {
+                    console.log("*ERR: ", err);
+                    reject();
+                }
+                resolve(token);
+            });
+        });
 
-       const transporter = nodemailer.createTransport({
-         service: "gmail",
-         auth: {
-           type: "OAuth2",
-           user: USER_EMAIL,
-           accessToken,
-           clientId: CLIENT_ID,
-           clientSecret: CLIENT_SECRET,
-           refreshToken: REFRESH_TOKEN,
-         },
-       });
-       return transporter;
-   } catch (err) {
-     return err
-   }
- };
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: USER_EMAIL,
+                accessToken,
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+            },
+        });
+        return transporter;
+    } catch (err) {
+        return err;
+    }
+};
 
 module.exports = router;

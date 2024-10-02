@@ -12,11 +12,11 @@ html
         h1 Register
         form(action="#", onsubmit="registerSubmit(this); return false")
             .input-container
-                input(type="text", name="firstName", value="", placeholder=" ", required)#firstName
+                input(type="text", name="firstName", value="", placeholder=" ", required)#firstName.caps
                 label(for="firstName").label First Name
                 .underline
             .input-container
-                input(type="text", name="surname", value="", placeholder=" ", required)#surname
+                input(type="text", name="surname", value="", placeholder=" ", required)#surname.caps
                 label(for="surname").label Surname
                 .underline
             .input-container
@@ -29,7 +29,7 @@ html
                 label(for="password").label Password
                 .underline
             .input-container
-                input(type="text", name="licenseNumber", value="", placeholder=" ", required)#licenseNumber
+                input(type="text", name="licenseNumber", value="", placeholder=" ", required)#licenseNumber.caps
                 label(for="licenseNumber").label Driving License Number
                 .underline
             .input-container
@@ -43,7 +43,7 @@ html
                 input(type="tel", name="mobileNumber", value="", placeholder=" ", required)#mobileNumber
                 .underline
             .input-container
-                input(type="text", name="postcode", value="", placeholder=" ", required)#postcode
+                input(type="text", name="postcode", value="", placeholder=" ", required)#postcode.caps
                 label(for="postcode").label Postcode
                 .underline
             .buttonWrapper

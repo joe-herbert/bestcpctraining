@@ -41,11 +41,11 @@ html
                     button(onclick="this.innerText = this.innerText == 'Show User' ? 'Hide User' : 'Show User'; this.nextElementSibling.classList.toggle('hide')", type="button") Show User
                     .userDetails.hide
                         .input-container
-                            input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ", disabled).firstName
+                            input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ", disabled).firstName.caps
                             label(for="firstName"+booking.id).label First name
                             .underline
                         .input-container
-                            input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ", disabled).surname
+                            input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ", disabled).surname.caps
                             label(for="surname"+booking.id).label Surname
                             .underline
                         .input-container
@@ -53,11 +53,11 @@ html
                             label(for="mobileNumber"+booking.id).label Mobile number
                             .underline
                         .input-container
-                            input(type="text", id="postcode"+booking.id, name="postcode", value=booking.User.postcode, placeholder=" ", disabled).postcode
+                            input(type="text", id="postcode"+booking.id, name="postcode", value=booking.User.postcode, placeholder=" ", disabled).postcode.caps
                             label(for="postcode"+booking.id).label Postcode
                             .underline
                         .input-container
-                            input(type="text", id="licenseNumber"+booking.id, name="licenseNumber", value=booking.User.licenseNumber, placeholder="", disabled).licenseNumber
+                            input(type="text", id="licenseNumber"+booking.id, name="licenseNumber", value=booking.User.licenseNumber, placeholder="", disabled).licenseNumber.caps
                             label(for="licenseNumber"+booking.id).label License number
                             .underline
                         .input-container
@@ -94,21 +94,21 @@ html
                 label(for="paid").label Paid
             #userDetails.userDetails
                 .input-container
-                    input(type="text", name="firstName", placeholder=" ").firstName#firstName
+                    input(type="text", name="firstName", placeholder=" ").firstName.caps#firstName
                     label(for="firstName").label First name
                     .underline
                 .input-container
-                    input(type="text", name="surname", placeholder=" ").surname#surname
+                    input(type="text", name="surname", placeholder=" ").surname.caps#surname
                     label(for="surname").label Surname
                     .underline
                 .input-container
                     input(type="tel", name="mobileNumber", placeholder=" ").mobileNumber#mobileNumber
                 .input-container
-                    input(type="text", name="postcode", placeholder=" ").postcode#postcode
+                    input(type="text", name="postcode", placeholder=" ").postcode.caps#postcode
                     label(for="postcode").label Postcode
                     .underline
                 .input-container
-                    input(type="text", name="licenseNumber", placeholder=" ").licenseNumber#licenseNumber
+                    input(type="text", name="licenseNumber", placeholder=" ").licenseNumber.caps#licenseNumber
                     label(for="licenseNumber").label License number
                     .underline
                 .input-container

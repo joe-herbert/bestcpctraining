@@ -44,15 +44,15 @@ html
         #user
             form(action="#", onsubmit="updateDetails(this); return false", data-email=userDetails.email)
                 .input-container
-                    input(type="text", name="firstName", value=userDetails.firstName, placeholder=" ", required)#firstName
+                    input(type="text", name="firstName", value=userDetails.firstName, placeholder=" ", required)#firstName.caps
                     label(for="firstName").label First Name
                     .underline
                 .input-container
-                    input(type="text", name="surname", value=userDetails.surname, placeholder=" ", required)#surname
+                    input(type="text", name="surname", value=userDetails.surname, placeholder=" ", required)#surname.caps
                     label(for="surname").label Surname
                     .underline
                 .input-container
-                    input(type="text", name="licenseNumber", value=userDetails.licenseNumber, placeholder=" ", required)#licenseNumber
+                    input(type="text", name="licenseNumber", value=userDetails.licenseNumber, placeholder=" ", required)#licenseNumber.caps
                     label(for="licenseNumber").label Driving License Number
                     .underline
                 .input-container
@@ -73,7 +73,7 @@ html
                     label(for="mobileNumber").label Mobile Number
                     .underline
                 .input-container
-                    input(type="text", name="postcode", value=userDetails.postcode, placeholder=" ", required)#postcode
+                    input(type="text", name="postcode", value=userDetails.postcode, placeholder=" ", required)#postcode.caps
                     label(for="postcode").label Postcode
                     .underline
                 .buttonWrapper

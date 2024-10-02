@@ -119,18 +119,13 @@ router.post("/deleteCourseType", admin, (req, res) => {
 });
 
 function toISOString(date) {
-	if (typeof date === "string") date = new Date(date);
-	console.log(date.getTimezoneOffset());
-      pad = function(num) {
-          return (num < 10 ? '0' : '') + num;
-      };
+    if (typeof date === "string") date = new Date(date);
+    console.log(date.getTimezoneOffset());
+    pad = function (num) {
+        return (num < 10 ? "0" : "") + num;
+    };
 
-  return date.getFullYear() +
-      '-' + pad(date.getMonth() + 1) +
-      '-' + pad(date.getDate()) +
-      'T' + pad(date.getHours()) +
-      ':' + pad(date.getMinutes()) +
-      ':' + pad(date.getSeconds());
+    return date.getFullYear() + "-" + pad(date.getMonth() + 1) + "-" + pad(date.getDate()) + "T" + pad(date.getHours()) + ":" + pad(date.getMinutes()) + ":" + pad(date.getSeconds());
 }
 
 router.get("/courses", admin, (req, res) => {
@@ -152,33 +147,33 @@ router.get("/courses", admin, (req, res) => {
                     });
                 })
                 .catch((err) => {
-		console.error(err);
+                    console.error(err);
                     res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
                 });
         })
         .catch((err) => {
-		console.error(err);
+            console.error(err);
             res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
         });
 });
 
 function dateToUTC(date) {
-	console.log("!", date);
-	if (typeof date === "string") {
-		date = new Date(date);
-	}
-	console.log("!!", date.toISOString(), date);
-	return date.toISOString();
+    console.log("!", date);
+    if (typeof date === "string") {
+        date = new Date(date);
+    }
+    console.log("!!", date.toISOString(), date);
+    return date.toISOString();
 }
 
 function formatDate(date) {
-	let temp = new Date(date);
-	temp.setUTCHours(temp.getHours() + 1);
-	let d = temp.toISOString();
+    let temp = new Date(date);
+    temp.setUTCHours(temp.getHours() + 1);
+    let d = temp.toISOString();
 
-	console.log(d.substring(0, d.length - 5));
-	return d.substring(0, d.length - 5);
-	/*
+    console.log(d.substring(0, d.length - 5));
+    return d.substring(0, d.length - 5);
+    /*
 	let month = "" + (d.getMonth() + 1);
 	let day = "" + d.getDate();
 	let year = d.getFullYear();
@@ -347,8 +342,8 @@ router.post("/addBooking", admin, (req, res) => {
                 let newUser = {
                     email: req.body.userEmail,
                 };
-                if (req.body.firstName) newUser.firstName = req.body.firstName;
-                if (req.body.surname) newUser.surname = req.body.surname;
+                if (req.body.firstName) newUser.firstName = req.body.firstName.toUpperCase();
+                if (req.body.surname) newUser.surname = req.body.surname.toUpperCase();
                 if (req.body.licenseNumber) newUser.licenseNumber = req.body.licenseNumber;
                 if (req.body.hgvLicense !== undefined) newUser.hgvLicense = req.body.hgvLicense;
                 if (req.body.pcvLicense !== undefined) newUser.pcvLicense = req.body.pcvLicense;
@@ -411,8 +406,8 @@ router.post("/updateBooking", admin, (req, res) => {
                 let newUser = {
                     email: req.body.userEmail,
                 };
-                if (req.body.firstName) newUser.firstName = req.body.firstName;
-                if (req.body.surname) newUser.surname = req.body.surname;
+                if (req.body.firstName) newUser.firstName = req.body.firstName.toUpperCase();
+                if (req.body.surname) newUser.surname = req.body.surname.toUpperCase();
                 if (req.body.licenseNumber) newUser.licenseNumber = req.body.licenseNumber;
                 if (req.body.hgvLicense !== undefined) newUser.hgvLicense = req.body.hgvLicense;
                 if (req.body.pcvLicense !== undefined) newUser.pcvLicense = req.body.pcvLicense;
@@ -605,7 +600,7 @@ router.post("/getCSVData", admin, (req, res) => {
                 let rows = [];
                 for (let booking of course.Bookings) {
                     rows.push({
-                        name: (booking.User.firstName || "") + " " + (booking.User.surname || ""),
+                        name: (booking.User.firstName + " " || "") + (booking.User.surname || ""),
                         licenseNumber: booking.User.licenseNumber || "",
                         category: (booking.User.hgvLicense ? "C" : "") + (booking.User.pcvLicense ? "D" : ""),
                         email: booking.User.email,
@@ -633,28 +628,28 @@ const generator = require("generate-password");
 const bcrypt = require("bcrypt");
 
 router.post("/newPassword", admin, async (req, res) => {
-	if (!req.body.email) {
-		res.status(400).send("Email must be provided");
-		return false;
-	}
-	const password = generator.generate({
-		length: 6,
-		numbers: true,
-	});
-	let user = await models.User.findOne({
-		where: {
-			email: req.body.email,
-		},
-	});
-	if (user) {
-		const hash = bcrypt.hashSync(password, 10);
-		user.password = hash;
-		await user.save();
-		//send password
-		res.status(200).json({ password: password });
-	} else {
-		res.status(400).send("No user with this email");
-	}
+    if (!req.body.email) {
+        res.status(400).send("Email must be provided");
+        return false;
+    }
+    const password = generator.generate({
+        length: 6,
+        numbers: true,
+    });
+    let user = await models.User.findOne({
+        where: {
+            email: req.body.email,
+        },
+    });
+    if (user) {
+        const hash = bcrypt.hashSync(password, 10);
+        user.password = hash;
+        await user.save();
+        //send password
+        res.status(200).json({ password: password });
+    } else {
+        res.status(400).send("No user with this email");
+    }
 });
 
 module.exports = router;
