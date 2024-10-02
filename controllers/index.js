@@ -940,7 +940,7 @@ router.post("/completeOrder", async (req, res) => {
     });
     if (!order) {
         console.error("Could not find an order with the provided order ID");
-        res.status(500).json({ error: `There was an error completing your booking. You have not been charged, please try again later.` });
+        res.status(500).json({ completed: false });
         return false;
     }
     const url = `${paypal_base}/v2/checkout/orders/${req.body.orderId}/capture`;
@@ -954,7 +954,7 @@ router.post("/completeOrder", async (req, res) => {
     });
     if (!response.ok) {
         console.log(response);
-        res.status(500).json({ error: `There was an error completing your booking. You have not been charged, please try again later.` });
+        res.status(500).json({ completed: false });
         return false;
     }
     let json = await response.json();
@@ -1048,14 +1048,18 @@ router.post("/completeOrder", async (req, res) => {
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.error(error);
+            json.responseHtml = `<h1 style="text-align: center;">Your booking is confirmed at Best CPC Training!</h1><h2 style="text-align: center;">PLEASE READ</h2><p><b>There was an error sending your confirmation email - please make sure you save your booking ID${userCreated ? " and your temporary password" : ""} before you leave this page!</b><br><b>You must login and make sure your details are up to date in the <a href="/account">Account</a> page or you may not be able to access your course.${userCreated ? " We also recommend changing your password to something you will remember." : ""}</b></p><br><p><b>Booking ID:</b> ${json.id}</p><p><b>Ordered at:</b> ${new Date().toLocaleDateString("en-Gb", dateFormat)}</p>${userCreated ? "<p><b>Your email:</b> " + userEmail + "<br><b>Your temporary password is:</b> " + newPassword + "<br>You should <a href='" + req.protocol + "://" + req.hostname + "/login'>log in</a> and change your password as soon as you can. You will also need to complete your user details in your account page before your course begins.</p>" : ""}<p>Your courses are:</p><table style="width: 80%;border: 5px solid #81b3ec;margin: 0 auto;">${generateTable(dbCourses)}</table><p>All the details you need to join your course are in the below PDF document, which can also be accessed from your Account page.</p><p>Please do not hesitate to <a href="${req.protocol + "://" + req.hostname}/contact">contact us</a> if you have any issues!</p><a class="button" style="width: 200px; margin: 10px auto;" href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf">DOWNLOAD PDF</a>`;
             res.status(500).json({
-                error: `There was an error sending your confirmation email${sendErr(error.message)}. Your booking has been reserved and paid for. Please contact us and reference your order ID: ${json.id}`,
+                completed: true,
                 json: json,
             });
         } else {
             console.log(json);
             console.log("Email sent: " + info.response);
-            res.send(json);
+            res.json({
+                completed: true,
+                json: json,
+            });
         }
     });
 });

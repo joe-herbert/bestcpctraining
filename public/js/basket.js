@@ -258,20 +258,17 @@ let paypal_buttons = paypal.Buttons({
             } else if (errorDetail) {
                 // (2) Other non-recoverable errors -> Show a failure message
                 throw new Error(`${errorDetail.description} (${orderData.debug_id})`);
-            } else if (!orderData.purchase_units) {
-		    console.error(orderData);
+            } else if (!orderData.json.purchase_units || !orderData.completed) {
+                console.error(orderData);
                 throw new Error(JSON.stringify(orderData));
             } else {
                 // (3) Successful transaction -> Show confirmation or thank you message
                 // Or go to another URL:  actions.redirect('thank_you.html');
-                const transaction = orderData?.purchase_units?.[0]?.payments?.captures?.[0] || orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
-                console.log(
-                    `Transaction ${transaction.status}: ${transaction.id}<br>
-          <br>See console for all available details`
-                );
+                // const transaction = orderData?.purchase_units?.[0]?.payments?.captures?.[0] || orderData?.purchase_units?.[0]?.payments?.authorizations?.[0];
+                // console.log(`Transaction ${transaction.status}: ${transaction.id}<br><br>See console for all available details`);
                 console.log("Capture result", orderData, JSON.stringify(orderData, null, 2));
                 document.getElementById("orderID").innerText = orderData.id;
-                document.getElementById("paymentComplete").innerHTML = orderData.responseHtml;
+                document.getElementById("paymentComplete").innerHTML = orderData.json.responseHtml;
                 document.getElementById("paymentComplete").classList.remove("hide");
                 document.getElementById("checkoutContainer").classList.add("hide");
                 localStorage.setItem("basket", []);
