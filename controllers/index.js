@@ -271,7 +271,11 @@ router.post("/logout", (req, res) => {
 });
 
 router.get("/forgotPassword", (req, res) => {
-    res.render("forgotPassword", { title: "Forgot Password" });
+    if (req.session.user) {
+        res.redirect("/account");
+    } else {
+        res.render("forgotPassword", { title: "Forgot Password" });
+    }
 });
 
 router.post("/forgotPassword", async (req, res) => {
