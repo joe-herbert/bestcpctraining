@@ -36,7 +36,7 @@ html
             span#checkoutTotal
             span Complete your payment with PayPal below. You can continue even if you don't have a PayPal account!
             - var email = typeof user != "undefined" ? user.email : "your paypal email address. To send to a different email, <a href='/login'>log in</a> or <a href='/register'>register</a> with that email address before checking out.";
-            span Please note: Your confirmation email will be sent to !{email}
+            span#emailConfirmation Please note: Your confirmation email will be sent to !{email}
             #paypal
             button#cancelCheckout(onclick="this.parentElement.classList.add('hide')") Cancel
         #paymentComplete.hide
