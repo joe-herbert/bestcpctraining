@@ -19,8 +19,13 @@ html
                     h4 Past
                 else if booking.milliseconds >= today && upcoming == false
                     - upcoming = true
-                    h4 Upcoming
-                    a.button(href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf") How to join my course
+                    h4#upcoming Upcoming
+                    span If you need to rearrange an upcoming course, please 
+                        a(href="/contact") contact us
+                        | .
+                    br
+                    br
+                    a.button(href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf", style="left: 50%;position: relative;transform: translateX(-50%);") How to join my course
                 .booking(data-id=booking.id, data-courseid=booking.courseId, data-code=booking.code, data-price=booking.price, data-name=booking.name)
                     span.date= booking.date
                     span.name= booking.name
@@ -30,7 +35,7 @@ html
                     else
                         a.paid.red(href="/contact") Not Paid - contact us
                     if booking.milliseconds >= today
-                        button(onclick="rearrange(this.parentElement)").rearrange Rearrange
+                        //button(onclick="rearrange(this.parentElement)").rearrange Rearrange
                         button(onclick="cancel(this.parentElement)").cancel Cancel
         else
             p You have no bookings yet.
