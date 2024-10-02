@@ -27,26 +27,28 @@ html
                         label(for="date"+booking.id).label Date
                         .underline
                     .input-container
-                        input(type="email", id="email"+booking.id, name="email", value=booking.userEmail, placeholder=" ", onchange="checkUserEmail(this)", required).email
-                        label(for="email"+booking.id).label Email
-                        .underline
-                    .input-container
                         if booking.paid == true
                             input(type="checkbox", id="paid"+booking.id, name="paid", checked).required.paid
                         else
                             input(type="checkbox", id="paid"+booking.id, name="paid").required.paid
                         label(for="paid"+booking.id).label Paid
+                    .input-container
+                        input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ", disabled).firstName.caps
+                        label(for="firstName"+booking.id).label First name
+                        .underline
+                    .input-container
+                        input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ", disabled).surname.caps
+                        label(for="surname"+booking.id).label Surname
+                        .underline
                     if booking.orderId
                         span.input-container Order ID: #{booking.orderId}
+                    else
+                        br
                     button(onclick="this.innerText = this.innerText == 'Show User' ? 'Hide User' : 'Show User'; this.nextElementSibling.classList.toggle('hide')", type="button") Show User
                     .userDetails.hide
                         .input-container
-                            input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ", disabled).firstName.caps
-                            label(for="firstName"+booking.id).label First name
-                            .underline
-                        .input-container
-                            input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ", disabled).surname.caps
-                            label(for="surname"+booking.id).label Surname
+                            input(type="email", id="email"+booking.id, name="email", value=booking.userEmail, placeholder=" ", onchange="checkUserEmail(this)", required).email
+                            label(for="email"+booking.id).label Email
                             .underline
                         .input-container
                             input(type="text", id="mobileNumber"+booking.id, name="mobileNumber", value=booking.User.mobileNumber, placeholder=" ", disabled).mobileNumber
