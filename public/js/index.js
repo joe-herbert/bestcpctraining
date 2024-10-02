@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     let testimonialsWrapper = document.getElementById("testimonials");
+    shuffle(testimonials);
     for (let testimonial of testimonials) {
         let div = document.createElement("div");
         div.classList.add("testimonial");
