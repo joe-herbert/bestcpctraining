@@ -38,7 +38,7 @@ html
         h2 Create new course
         form.course(onsubmit="create(this); return false;")
             .input-container
-                input(type="datetime-local", name="date", value=today, placeholder=" ", onchange="this.dataset.value=this.value", required).date#date
+                input(type="datetime-local", name="date", value=defaultDate, placeholder=" ", onchange="this.dataset.value=this.value", required).date#date
                 label(for="date").label Date
                 .underline
             .input-container

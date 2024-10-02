@@ -139,10 +139,13 @@ router.get("/courses", admin, (req, res) => {
             });
             models.CourseType.findAll()
                 .then((courseTypes) => {
+                    let nextSaturday = new Date();
+                    nextSaturday.setDate(nextSaturday.getDate() + (6 - nextSaturday.getDay()));
+                    nextSaturday.setHours(9, 0, 0);
                     res.render("adminCourses", {
                         title: "Courses - Admin",
                         courses: courses,
-                        today: new Date(),
+                        defaultDate: nextSaturday,
                         courseTypes: courseTypes,
                     });
                 })
