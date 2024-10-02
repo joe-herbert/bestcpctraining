@@ -1,0 +1,10 @@
+.input-container:has(.discountType),
+.input-container:has(.amount),
+.input-container:has(.uses),
+.input-container:has(.expiryDate) {
+    width: 200px;
+}
+
+.code {
+    text-transform: uppercase;
+}

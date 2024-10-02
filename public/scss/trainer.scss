@@ -1,0 +1,17 @@
+.main {
+    max-width: 1000px;
+    margin: 0 auto;
+
+    #andrew {
+        width: 600px;
+        max-width: 50%;
+        border-radius: 50px;
+        box-shadow: 0 0 20px -15px #448;
+        float: right;
+        margin: 0 20px 20px;
+    }
+
+    p {
+        margin: 40px 20px 20px 0;
+    }
+}

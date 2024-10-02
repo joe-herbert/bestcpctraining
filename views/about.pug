@@ -1,0 +1,77 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+    body
+        include common/body.pug
+        +body(true, user)
+        h1 About CPC - FAQs
+        button(type="button").accordion What is Driver CPC?
+        .accordionContent
+            p CPC is a HGV Drivers ‘Certificate of Professional Competence’. It has been brought in to ‘improve the knowledge and skills of commercial lorry and bus drivers.
+        button(type="button").accordion Who needs Driver CPC?
+        .accordionContent
+            p Any Lorry or Bus Driver who drives professionally needs a CPC card. 
+            | According to the GOV.uk website you do not need Driver CPC if you’re using the vehicle for:
+            ul
+                li non-commercial carriage of passengers or goods
+                li carrying material or equipment you use for your job, as long as driving is less than 30% of your rolling monthly work
+                li driving for someone you work for, or your own agriculture, horticulture, forestry, farming or fisheries business, as long as driving is less than 30% of your rolling monthly work
+                li driving within 62 miles (100 kilometres) of your base – but the vehicle cannot be carrying passengers or goods, and driving a lorry, bus or coach cannot be your main job
+                li driving to or from pre-booked appointments at official vehicle testing centres
+                li driving lessons for anyone who wants to get a driving licence or a Driver CPC
+                li maintaining public order – and the vehicle is being used or controlled by a local authority
+                li rescue missions or in states of emergency
+            | You also do not need Driver CPC if the vehicle is:
+            ul
+                li is being road tested for repair, maintenance or technical development purposes
+                li either new or rebuilt and has not yet been taxed
+                li being used or controlled by the armed forces, police, fire and rescue service, emergency ambulance service, prison service or people running a prison or young offender institution
+                li limited to a top speed of 28mph
+        button(type="button").accordion What is the fine for not having valid Driver CPC?
+        .accordionContent
+            p You can be fined up to £1,000 for driving professionally without Driver CPC.
+        button(type="button").accordion Do I have Grandfather Rights for CPC?
+        .accordionContent
+            p You will have Grandfather Rights or ‘acquired rights’ if you:
+            ul
+                li passed your HGV licence (C, C1, C+E and C1+E) before 10th September 2009
+            | OR
+            ul
+                li have C1 due to passing your car test in the UK before 1997.
+            p If this is the case you can book on to do 5 CPC modules to receive your first ever CPC card.  No tests/exams just book on for your modules and we’ll do the rest!
+        button(type="button").accordion Do I need to do a Mod 2 & Mod 4 CPC?
+        .accordionContent
+            p You will only need to do a Mod 2 & Mod 4 if you passed your HGV after September 2009 and do not have Grandfather Rights for car (passed car before 1997)  If you need to do your Mod 2 & Mod 4 simply book the Mod 2 first online at 
+                a(href="https://www.gov.uk/book-theory-test") https://www.gov.uk/book-theory-test
+                | .
+        button(type="button").accordion What is ODE?
+        .accordionContent
+            p ODE stands for Online Driver Enquiry.
+            p You can register for the ODE service which can be accessed on 
+                a(href="www.gov.uk/check-your-driver-cpc-periodic-training-hours") gov.uk
+                | .
+            p When a driver has accessed the ODE service to check how many periodic training hours they have accrued they can generate a temporary password, valid for 21 days, to pass to a 3rd party to allow access to their periodic training details.
+            p The ODE facility enables drivers to check the amount of periodic training recorded for them. Drivers are advised to check ODE after five working days of completing periodic training to ensure that it has been correctly uploaded by their training provider.
+            p A driver can also use the ODE service to see when their next Driver Qualification Card (DQC) is going to be issued.
+        button(type="button").accordion How long does a CPC card take to arrive and can I drive while I’m waiting?
+        .accordionContent
+            p You can drive while waiting for your CPC card to arrive. DVSA say it can take upto 21 days to arrive.  In the meantime, make sure you have you ODE set up and keep your certificates safe! You can sign up for your ODE at 
+                a(href="www.gov.uk/check-your-driver-cpc-periodic-training-hours") gov.uk
+                | .
+
+        button(type="button").accordion Can I repeat Driver CPC Modules?
+        .accordionContent
+            p DVSA/Jaupt now state:
+            p “Drivers can only take the same course more than once in each 5-year period if they have a good reason to repeat it – for example, maintaining a dangerous goods qualification. If they do not have a good reason, DVSA can cancel the hours they got from the course. The driver might lose their DQC if cancelling the hours takes their total back under 35 hours.”
+        button(type="button").accordion What do I do if I have a non UK CPC Card?
+        .accordionContent
+            p If a driver presents for training with a GB driving licence and a DQC issued in another country, they should be advised to send their DQC to the DVSA for exchange, or to email a scanned image of the front and back of this card to the DVSA including their GB driving licence number and address. This will enable the periodic training hours to be validated.
+        button(type="button").accordion How long does it take for Driver CPC to be uploaded and validated?
+        .accordionContent
+            p All training providers have up to 5 working days to upload drivers' CPC modules, but we aim to upload within 24 hours!
+        button(type="button").accordion Can I do your CPC Courses if I have a D licence?
+        .accordionContent
+            p YES! Our courses are registered and approved for C1, C, C+E, D1 and D! 
+        +footer()

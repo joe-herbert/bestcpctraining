@@ -1,0 +1,56 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/admin.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/adminCourses.js")
+        h1 Courses
+        #courses
+            each course in courses
+                form.course(onsubmit="update(this); return false;")
+                    input(type="text", name="id", value=course.id, readonly).hide
+                    .input-container
+                        input(type="datetime-local", name="date", id="date"+course.id, value=course.formattedDate, placeholder=" ", onchange="this.dataset.value=this.value", data-value=course.formattedDate, required).date
+                        label(for="date"+course.id).label Date
+                        .underline
+                    .input-container
+                        input(type="text", name="price", id="price"+course.id, value='£'+course.price, placeholder=" ", onchange="let val = this.value.charAt(0) === '£' ? this.value.substring(1) : this.value; let num = parseFloat(val); this.value = isNaN(num) ? '' : '£' + num.toFixed(2);", required).price
+                        label(for="price"+course.id).label Price
+                        .underline
+                    .input-container
+                        select(name="code", id="code"+course.id, placeholder=" ", autocomplete="off", required)
+                            option(value="", autocomplete="off", selected, disabled, hidden) Select Course Type
+                            each type in courseTypes
+                                if course.code == type.code
+                                    option(value=type.code, autocomplete="off", selected)= "* " + type.name
+                                else
+                                    option(value=type.code, autocomplete="off")= type.name
+                        label(for="code"+course.id).label Course Type
+                        .underline
+                    .buttons
+                        button(type="submit") Update
+                        button(onclick="destroy(this)", type="button") Delete
+                        button(onclick="generateCSV('"+ course.id + "')", type="button") Generate CSV
+        h2 Create new course
+        form.course(onsubmit="create(this); return false;")
+            .input-container
+                input(type="datetime-local", name="date", value=today, placeholder=" ", onchange="this.dataset.value=this.value", required).date#date
+                label(for="date").label Date
+                .underline
+            .input-container
+                input(type="text", name="price", value="£39.99", placeholder=" ", onchange="let val = this.value.charAt(0) === '£' ? this.value.substring(1) : this.value; let num = parseFloat(val); this.value = isNaN(num) ? '' : '£' + num.toFixed(2);", required).price#price
+                label(for="price").label Price
+                .underline
+            .input-container
+                select(name="code", placeholder=" ", autocomplete="off", required)#code
+                    option(value="", autocomplete="off", selected, disabled, hidden) Select Course Type
+                    each type in courseTypes
+                        option(value=type.code, autocomplete="off")= type.name
+                label(for="code").label Course Type
+                .underline
+            button(type="submit") Save
+        +footer()

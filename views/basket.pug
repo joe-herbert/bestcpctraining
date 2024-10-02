@@ -1,0 +1,51 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/basket.css")
+        script(src="https://www.paypal.com/sdk/js?client-id="+paypalClientId+"&currency=GBP")
+        script(src="/js/basket.js")
+    body
+        include common/body.pug
+        +body(true, user)
+        h1 Basket
+        span#notReservedWarning Items in your basket are not reserved. Checkout now to secure your place!
+        #basketContainer
+            #basket
+                #basketSpinner
+            #total.hide
+                span#subtotal
+                #discounts
+                br
+                .input-container
+                    input(type="text", id="discount", name="discount", value="", placeholder=" ", required).code
+                    label(for="discount").label Discount Code
+                    .underline
+                button#addDiscount(onclick="checkDiscount()") &#8594;
+                br
+                span#totalPrice
+                br
+                input(type="checkbox", id="termsAndConditions", checked=false)
+                label(for="termsAndConditions") Please confirm you agree to the 
+                    a(href="/termsAndConditions") Terms and Conditions
+                br
+                button#checkout(onclick="showCheckout()") Checkout
+        span#empty.hide Your basket is empty
+        #checkoutContainer.hide
+            span#checkoutTotal
+            span Complete your payment with PayPal below. You can continue even if you don't have a PayPal account!
+            - var email = typeof user != "undefined" ? user.email : "your paypal email address. To send to a different email, <a href='/login'>log in</a> or <a href='/register'>register</a> with that email address before checking out.";
+            span Please note: Your confirmation email will be sent to !{email}
+            #paypal
+            button#cancelCheckout(onclick="this.parentElement.classList.add('hide')") Cancel
+        #paymentComplete.hide
+            h1 Thank you for your order!
+            h3 Order Number: 
+                span#orderID
+            p You will receive an email shortly with all the details you need to join your course!
+            p Please visit 
+                a(href="/account") your account
+                span  to ensure your mobile number and license number are up to date before your course.
+            a.button(href="/")#home Home
+        +footer()

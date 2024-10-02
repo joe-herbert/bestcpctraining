@@ -1,0 +1,37 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/course.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        .main
+            h1= course.name
+            if course.descriptionB
+                h3 Part A
+                p= course.descriptionA
+                h3 Part B
+                p= course.descriptionB
+            else
+                h3 Description
+                p= course.descriptionA
+            h2 Book now
+            #courses
+                if course.Courses.length
+                    each c in course.Courses
+                        .course
+                            span.courseDate= c.formattedDate
+                            span.coursePrice= c.price
+                            if c.spacesRemaining <= 0
+                                button.addToBasket(disabled) Sold Out
+                            else
+                                if c.spacesRemaining <= 5
+                                    span.courseSpace.red #{c.spacesRemaining + "/" + course.spaces} spaces remaining
+                                else if c.spacesRemaining <= 10
+                                    span.courseSpace #{c.spacesRemaining + "/" + course.spaces} spaces remaining
+                                button.addToBasket(onclick="if (addToBasket('" + c.id + "', '" + course.code + "', true)) {this.classList.toggle('inBasket'); if (this.classList.contains('inBasket')) setTimeout(() => {window.location.href='/courses'}, 2000);}", data-id=c.id) Add to basket
+                else
+                    p There are no courses of this type available to book right now. Please check back later!
+        +footer()

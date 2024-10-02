@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/login.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        h1 Log In
+        form(action="#", onsubmit="loginSubmit(this); return false")
+            .input-container
+                input(type="text", name="email", value="", placeholder=" ", required)#email
+                label(for="email").label Email
+                .underline
+            .input-container
+                input(type="password", name="password", value="", placeholder=" ", required)#password
+                label(for="password").label Password
+                .underline
+            .buttonWrapper
+                button Submit
+            br
+            .buttonWrapper
+                span If you are having account issues, please 
+                a(href="/contact") contact us
+            //a(href="/forgotPassword")#forgot Forgot your password?
+        +footer()
+        script(src="/js/login.js")

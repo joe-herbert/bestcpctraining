@@ -1,0 +1,29 @@
+.main {
+    max-width: 800px;
+    margin: 0 auto;
+}
+#courses {
+    .course {
+        display: grid;
+        grid-template-columns: 3fr 1fr 150px;
+        border-bottom: 2px solid var(--accent1);
+        align-items: center;
+        padding: 20px;
+
+        &:has(.courseSpace) {
+            grid-template-columns: 2fr 1fr 190px 150px;
+
+            .courseSpace {
+                color: var(--red);
+            }
+        }
+
+        &:first-of-type {
+            border-top: 2px solid var(--accent1);
+        }
+
+        span:not(:first-of-type) {
+            text-align: center;
+        }
+    }
+}

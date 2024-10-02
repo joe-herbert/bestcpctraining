@@ -1,0 +1,32 @@
+.questionWrapper {
+    text-align: center;
+    padding: 20px;
+
+    .question {
+        display: block;
+        font-size: 20px;
+    }
+    .yes,
+    .no {
+        margin: 30px 10px;
+        font-size: 18px;
+    }
+    .yes.clicked {
+        background-color: green;
+        color: white;
+    }
+    .no.clicked {
+        background-color: white;
+        color: var(--accent1);
+    }
+}
+
+p {
+    text-align: center;
+}
+
+#book {
+    display: block;
+    margin: 20px auto;
+    width: 130px;
+}

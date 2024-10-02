@@ -1,0 +1,15 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+    body
+        include common/body.pug
+        +body(true, user)
+        .main(style="text-align: center;")
+            h1 404 Page Not Found
+            p Sorry, this page doesn't exist!
+            .buttonWrapper
+                a.button(href="/", style="margin: 10px;") Home
+                a.button(href="/book", style="margin: 10px;") Book a course
+        +footer()

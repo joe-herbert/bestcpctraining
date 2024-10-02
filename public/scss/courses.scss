@@ -1,0 +1,102 @@
+#courses {
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .course {
+        position: relative;
+        padding: 20px;
+        border-bottom: 2px solid var(--accent1);
+
+        .courseName {
+            font-size: 20px;
+            color: var(--foreground);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .courseBook {
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+
+            &.courseInBasket {
+                &:hover {
+                    &::before {
+                        content: "Already in your basket";
+                    }
+                }
+
+                &::before {
+                    content: "\1F6D2";
+                    display: inline-block;
+                    position: absolute;
+                    right: 220px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    text-align: center;
+                    color: var(--accent1);
+                    font-size: 20px;
+                }
+            }
+        }
+
+        .first {
+            display: inline-block;
+            background-color: var(--accentLight);
+            padding: 20px;
+
+            .nextDate {
+                margin-right: 25px;
+            }
+
+            .nextPrice {
+                margin: 20px 25px 0 0;
+                display: inline-block;
+            }
+
+            .nextPrice,
+            .nextSpace {
+                line-height: 40px;
+            }
+
+            .addToBasket {
+                margin: 20px 20px 0;
+                float: right;
+            }
+
+            span:first-of-type {
+                margin-right: 20px;
+            }
+        }
+
+        &:first-of-type {
+            border-top: 2px solid var(--accent1);
+        }
+    }
+}
+
+@media only screen and (max-width: 875px) {
+    .courseBook {
+        position: static !important;
+        margin-top: 40px;
+    }
+    .first {
+        display: block !important;
+        max-width: 450px;
+        margin: 0 auto;
+    }
+    .course {
+        text-align: center;
+    }
+    .addToBasket {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
+@media only screen and (max-width: 485px) {
+    .first {
+        display: none !important;
+    }
+}

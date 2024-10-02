@@ -1,0 +1,36 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/eligibility.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/eligibility.js")
+        h1 Am I eligible for CPC courses?
+        p If you haven't had a Driver CPC Card before and you are unsure whether you are able to do online courses please answer these questions to find out what you need to do. 
+        .questionWrapper
+            span.question 1. Did you pass your CAR Driving Licence in the UK before 1st January 1997? 
+            button.yes(onclick="cpcAllowed('You have ‘Grandfather Rights’ and were automatically given B+E, C1 and D1 entitlement. ', this)", data-id="1") Yes
+            button.no(onclick="showQuestion('question2', this)") No
+            #question2.hide
+                span.question 2. Did you pass your HGV practical text before 10th September 2009 / PCV before 10th September 2008? 
+                button.yes(onclick="cpcAllowed('You have CPC Acquired Rights. ', this)", data-id="2")#yes2 Yes
+                button.no(onclick="showQuestion('question3', this)")#no2 No
+            #question3.hide
+                span.question 3. Have you done a Mod 2 & Mod 4 CPC Exam? 
+                button.yes(onclick="cpcAllowed('Perfect! You have done your initial CPC. ', this)", data-id="3")#yes3 Yes
+                button.no(onclick="showQuestion('notAllowed', this)")#no3 No
+            #notAllowed.hide
+                p If you have never done a Mod 2 & Mod 4 CPC Exam you CANNOT attend our online CPC sessions just yet. 
+                p.underline Before you do any online training you MUST complete a Mod 2 and Mod 4 exam. 
+                p You can book your Mod 2 CPC Exam at 
+                    a(href="https://www.gov.uk/book-theory-test") https://www.gov.uk/book-theory-test
+                    span . 
+                p Once this is complete you will need to call a local HGV/PCV Driving school near you to complete the Mod 4 CPC. 
+            #cpcAllowed.hide
+                span#cpcAllowedMessage
+                span This means you can do 35 hours online CPC training to get your first ever Driver CPC Card.  
+                    a(href="/book").button#book BOOK NOW
+        +footer()

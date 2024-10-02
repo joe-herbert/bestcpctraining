@@ -1,0 +1,35 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/courses.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/courses.js")
+        h1 Courses
+        #courses
+            each course in courses
+                if course.code != "SAVE"
+                    .course
+                        a.courseName(href="/course?code=" + course.code)= course.name
+                        if course.nextDate
+                            .first
+                                span Next available date: 
+                                span.nextDate= course.nextDate
+                                br
+                                span.nextPrice= course.nextPrice
+                                if course.spacesRemaining <= 10
+                                    if course.spacesRemaining <= 0
+                                        button.addToBasket(disabled) Sold Out
+                                    else
+                                        if course.spacesRemaining <= 5
+                                            span.nextSpace.red #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                                        else
+                                            span.nextSpace #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                                        button.addToBasket(onclick="if (addToBasket('" + course.nextId + "', '" + course.code + "')) {this.classList.toggle('inBasket'); refreshCoursesInBasket();}", data-id=course.nextId) &#128722;
+                                else
+                                    button.addToBasket(onclick="if (addToBasket('" + course.nextId + "', '" + course.code + "')) {this.classList.toggle('inBasket'); refreshCoursesInBasket();}", data-id=course.nextId) Add to basket
+                        a.courseBook(href="/course?code=" + course.code + "#courses", data-code=course.code).button ALL COURSE DATES
+        +footer()

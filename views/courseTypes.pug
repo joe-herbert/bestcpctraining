@@ -1,0 +1,57 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/courseTypes.css")
+        link(rel="stylesheet", href="/css/admin.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/courseTypes.js")
+        h1 Course Types
+        each type in types
+            form.type(onsubmit="update(this); return false;")
+                input(type="text", name="code", value=type.code, readonly).hide
+                .input-container
+                    input(type="text", name="name", id="name"+type.code, value=type.name, placeholder=" ", required).name
+                    label(for="name"+type.code).label Name
+                    .underline
+                .input-container
+                    input(type="number", name="spaces", id="spaces"+type.code, value=type.spaces, placeholder=" ", required).spaces
+                    label(for="spaces"+type.code).label Spaces
+                    .underline
+                .input-container
+                    textarea(name="descriptionA", id="descriptionA"+type.code, placeholder=" ", required).description= type.descriptionA
+                    label(for="descriptionA"+type.code).label Description A
+                    .underline
+                .input-container
+                    textarea(name="descriptionB", id="descriptionB"+type.code, placeholder=" ").description= type.descriptionB
+                    label(for="descriptionB"+type.code).label Description B
+                    .underline
+                button(type="submit") Update
+                button(onclick="destroy(this)", type="button") Delete
+        h2 Create new type
+        form.type(onsubmit="create(this); return false;")
+            .input-container
+                input(type="text", name="code", value="", placeholder=" ", required).code#code
+                label(for="code").label Short Code
+                .underline
+            .input-container
+                input(type="text", name="name", value="", placeholder=" ", required).name#name
+                label(for="name").label Name
+                .underline
+            .input-container
+                input(type="number", name="spaces", value="20", placeholder=" ", required).spaces#spaces
+                label(for="spaces").label Spaces
+                .underline
+            .input-container
+                textarea(name="descriptionA", placeholder=" ", required).description#descriptionA
+                label(for="descriptionA").label Description A
+                .underline
+            .input-container
+                textarea(name="descriptionB", placeholder=" ").description#descriptionB
+                label(for="descriptionB").label Description B
+                .underline
+            button(type="submit") Save
+        +footer()

@@ -1,0 +1,19 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head()
+        link(rel="stylesheet", href="/css/trainer.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        h1 Your trainer
+        .main
+            img(src="/imgs/andrew.jpg")#andrew
+            p My name is Andrew, I am an experienced CPC trainer with a teaching degree from Warwick University with over 20 years teaching experience both online and in classroom environments. I am also an experienced HGV driver, with over 10 years UK & Worldwide professional driving experience, for many UK based companies, some you may know. I have worked across a wealth of industries and driven truck types from refuse collection, refrigerated, double decker, HIAB, Flatbed, articulated & draw-bar, to 7.5 tonne and Van multidrop. I love driving, I love the logistics industry and love sharing my knowledge & experiences with other like-minded drivers. 
+            p I am a fun-loving good-natured family man as well as a keen follower of football and motorsports. I am a motorcyclist and drummer in a local rock band. My CPC card is up to date, (yes despite being a CPC trainer I still have to sit in a classroom like you to complete my 35 hours). I have also been approved by the DVSA and JAUPT to deliver these courses to you.
+            p  I was also a Police Constable during the 1990’s and also spent time after that working in various office environments. My combined skills and work experience to date have given me a good overall knowledge of the things needed to be a good Driver CPC trainer. My courses are interesting and enjoyable, with a good mix of friendly banter and information needed to complete the course.
+            p So, check out the courses and dates you are available and let’s together complete your CPC hours online. 
+            .buttonWrapper
+                a(href="/book").button Book your course now!
+        +footer()

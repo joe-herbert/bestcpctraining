@@ -1,0 +1,98 @@
+.button {
+    margin: 20px;
+}
+
+.type {
+    background-color: var(--accentLight);
+    padding: 20px;
+    margin: 20px 0;
+    display: grid;
+    grid-template-areas: "name name name spaces" "a a a a" "b b b b" "update update delete delete";
+
+    &:has(.code:not(.hide)) {
+        grid-template-areas: "code code . ." "name name name spaces" "a a a a" "b b b b" "update update update update";
+
+        .code {
+            grid-area: code;
+        }
+    }
+
+    .input-container {
+        width: auto !important;
+        margin: 30px !important;
+    }
+
+    .input-container:has(.name) {
+        grid-area: name;
+    }
+
+    .input-container:has(.spaces) {
+        grid-area: spaces;
+    }
+
+    .input-container:has(.description[name="descriptionA"]) {
+        grid-area: a;
+    }
+
+    .input-container:has(.description[name="descriptionB"]) {
+        grid-area: b;
+    }
+
+    button[type="submit"] {
+        grid-area: update;
+    }
+
+    button:not([type="submit"]) {
+        grid-area: delete;
+    }
+
+    button {
+        margin: 20px auto;
+    }
+
+    textarea {
+        font-family: inherit;
+        height: 100px;
+    }
+}
+
+.course,
+.booking,
+.discount {
+    text-align: center;
+    background-color: var(--accentLight);
+    padding: 20px;
+    margin: 20px 0;
+
+    button,
+    .button {
+        margin: 20px;
+    }
+
+    .input-container {
+        margin: 30px 10px 10px;
+        display: inline-block;
+    }
+}
+
+.course .buttons,
+.discount .buttons,
+.booking .buttons {
+    display: inline-block;
+}
+
+@media only screen and (min-width: 780px) {
+    .input-container:has(.price) {
+        width: 200px;
+    }
+}
+
+.booking {
+    .input-container .iti:has(input[type="tel"]:valid)::after {
+        transform: scaleX(0);
+    }
+
+    .input-container .iti:has(input[type="tel"]:not(:placeholder-shown))::after {
+        transform: scaleX(1) !important;
+    }
+}

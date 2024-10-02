@@ -1,0 +1,60 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/login.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js")
+    body#register
+        include common/body.pug
+        +body(true, user)
+        h1 Register
+        form(action="#", onsubmit="registerSubmit(this); return false")
+            .input-container
+                input(type="text", name="firstName", value="", placeholder=" ", required)#firstName
+                label(for="firstName").label First Name
+                .underline
+            .input-container
+                input(type="text", name="surname", value="", placeholder=" ", required)#surname
+                label(for="surname").label Surname
+                .underline
+            .input-container
+                - var emailValue = (email ? email : "")
+                input(type="email", name="email", value=emailValue, placeholder=" ", required)#email
+                label(for="email").label Email
+                .underline
+            .input-container
+                input(type="password", name="password", value="", placeholder=" ", required)#password
+                label(for="password").label Password
+                .underline
+            .input-container
+                input(type="text", name="licenseNumber", value="", placeholder=" ", required)#licenseNumber
+                label(for="licenseNumber").label Driving License Number
+                .underline
+            .input-container
+                input(type="checkbox", name="hgvLicense")#hgvLicense.required
+                label(for="hgvLicense") Do you have a HGV License?
+                br
+                br
+                input(type="checkbox", name="pcvLicense")#pcvLicense.required
+                label(for="pcvLicense") Do you have a PCV License?
+            .input-container
+                input(type="tel", name="mobileNumber", value="", placeholder=" ", required)#mobileNumber
+                .underline
+            .input-container
+                input(type="text", name="postcode", value="", placeholder=" ", required)#postcode
+                label(for="postcode").label Postcode
+                .underline
+            .buttonWrapper
+                button Submit
+        +footer()
+        script.
+            const phoneInputField = document.querySelector("#mobileNumber");
+            const phoneInput = window.intlTelInput(phoneInputField, {
+               utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+               countryOrder: ["gb"],
+               initialCountry: "gb",
+               separateDialCode: true,
+            });
+        script(src="/js/login.js")

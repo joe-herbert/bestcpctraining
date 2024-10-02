@@ -1,0 +1,100 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/account.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/account.js")
+        h1 Your Account
+        h3 Bookings
+        if bookings.length && bookings.length > 0
+            - var past = false
+            - var upcoming = false
+            each booking in bookings
+                if booking.milliseconds < today && past == false
+                    - past = true
+                    h4 Past
+                else if upcoming == false
+                    - upcoming = true
+                    h4 Upcoming
+                    a.button(href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf") How to join my course
+                .booking(data-id=booking.id, data-courseid=booking.courseId, data-code=booking.code, data-price=booking.price, data-name=booking.name)
+                    span.date= booking.date
+                    span.name= booking.name
+                    span.price £#{booking.price.toFixed(2)}
+                    if booking.paid
+                        span.paid.green Paid
+                    else
+                        a.paid.red(href="/contact") Not Paid - contact us
+                    if booking.milliseconds >= today
+                        button(onclick="rearrange(this.parentElement)").rearrange Rearrange
+                        button(onclick="cancel(this.parentElement)").cancel Cancel
+        else
+            p You have no bookings yet.
+            a.button(href="/book") Book a course now
+        #rearrange.hide
+            h3#rearrangeName
+            button(onclick="this.parentElement.classList.add('hide')") Cancel
+            button(onclick="saveCourseForLater()", style="margin-top: 10px") Decide your date later
+            #rearrangeCourses
+        h3 Your Details - #{userDetails.email}
+        #user
+            form(action="#", onsubmit="updateDetails(this); return false", data-email=userDetails.email)
+                .input-container
+                    input(type="text", name="firstName", value=userDetails.firstName, placeholder=" ", required)#firstName
+                    label(for="firstName").label First Name
+                    .underline
+                .input-container
+                    input(type="text", name="surname", value=userDetails.surname, placeholder=" ", required)#surname
+                    label(for="surname").label Surname
+                    .underline
+                .input-container
+                    input(type="text", name="licenseNumber", value=userDetails.licenseNumber, placeholder=" ", required)#licenseNumber
+                    label(for="licenseNumber").label Driving License Number
+                    .underline
+                .input-container
+                    if userDetails.hgvLicense
+                        input(type="checkbox", name="hgvLicense", checked)#hgvLicense.required
+                    else
+                        input(type="checkbox", name="hgvLicense")#hgvLicense.required
+                    label(for="hgvLicense") Do you have a HGV License?
+                    br
+                    br
+                    if userDetails.pcvLicense
+                        input(type="checkbox", name="pcvLicense", checked)#pcvLicense.required
+                    else
+                        input(type="checkbox", name="pcvLicense")#pcvLicense.required
+                    label(for="pcvLicense") Do you have a PCV License?
+                .input-container
+                    input(type="tel", name="mobileNumber", value=userDetails.mobileNumber, placeholder=" ", required)#mobileNumber
+                    label(for="mobileNumber").label Mobile Number
+                    .underline
+                .input-container
+                    input(type="text", name="postcode", value=userDetails.postcode, placeholder=" ", required)#postcode
+                    label(for="postcode").label Postcode
+                    .underline
+                .buttonWrapper
+                    button Update details
+        h3 Change your password
+        form(action="#", onsubmit="changePassword(this); return false")
+            .input-container
+                input(type="password", name="oldPassword", value="", placeholder=" ", required)#oldPassword
+                label(for="oldPassword").label Old Password
+                .underline
+            .input-container
+                input(type="password", name="newPassword", value="", placeholder=" ", required)#newPassword
+                label(for="newPassword").label New Password
+                .underline
+            .input-container
+                input(type="password", name="newPasswordRepeated", value="", placeholder=" ", required, oninput="repeatedPasswordChange(this.parentElement.parentElement)")#newPasswordRepeated
+                label(for="newPasswordRepeated").label Repeat Your New Password
+                .underline
+            button(type="submit").center Change password
+        h3 Danger Zone
+        button.danger(onclick="deleteAccount()").center Delete Account
+        +footer()
+        script.
+            const courses = !{JSON.stringify(courses)};

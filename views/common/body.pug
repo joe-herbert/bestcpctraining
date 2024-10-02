@@ -1,0 +1,40 @@
+mixin body(base, user)
+    if base
+        script(src="/js/base.js")
+    #menu
+        a(href="/")
+            img(src="/imgs/logo.png")#logo
+        a(href="/")#home Home
+        a(href="/trainer") Trainer
+        a(href="/courses") Courses
+        a(href="/about") About CPC
+        a(href="/eligibility") Eligibility
+        a(href="/contact") Contact
+        .right
+            if typeof user != "undefined" && user.permissions == "admin"
+                a(href="/admin") Admin
+            a(href="/basket", title="Basket")#basketCount &#x1F6D2;
+            if typeof user != "undefined"
+                .loginWrapper
+                    a(href="/account")#loginLink Account
+                    span /
+                    a(href="javascript:void()", onclick="logout()")#registerLink Log out
+            else
+                .loginWrapper
+                    a(href="/login")#loginLink Log in
+                    span /
+                    a(href="/register")#registerLink Register
+        label(for="check")#burger
+            input(type="checkbox")#check
+            span.top
+            span.middle
+            span.bottom
+
+mixin footer()
+    #footer
+        #consortium
+            img(src="/imgs/drivercpclogo.png")
+            span APPROVED CONSORTIUM AC00591
+        #developer
+            | Website by 
+            a(href="https://joeherbert.dev") Joe Herbert

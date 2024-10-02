@@ -1,0 +1,31 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head()
+        link(rel="stylesheet", href="/css/admin.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/admin.js")
+        h1 Admin
+        .buttonWrapper
+            a(href="/admin/courseTypes").button Course Types
+            br
+            a(href="/admin/courses").button Courses
+            br
+            a(href="/admin/bookings").button Bookings
+            br
+            a(href="/admin/discounts").button Discounts
+            br
+            label(for="frontPageAdvert").button Upload new front page advert 
+            input(type="file", id="frontPageAdvert").hide
+            #newPasswordContainer
+                .input-container
+                    input(type="email", placeholder=" ", value="")#newPasswordEmail
+                    label(for="newPasswordEmail").label Email
+                    .underline
+                button(onclick="generateNewPassword()") Generate New Password
+                br
+                span#newPasswordOutput
+        +footer()

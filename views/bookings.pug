@@ -1,0 +1,131 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head(title)
+        link(rel="stylesheet", href="/css/bookings.css")
+        link(rel="stylesheet", href="/css/admin.css")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css")
+        script(src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js")
+    body
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/bookings.js")
+        h1 Bookings
+        #bookings
+            each booking in bookings
+                form.booking(onsubmit="update(this); return false;")
+                    input(type="text", name="id", value=booking.id, readonly).hide
+                    .input-container
+                        select(name="date", id="date"+booking.id, placeholder=" ", autocomplete="off", required).date
+                            option(value="", selected, disabled, hidden, autocomplete="off") Select Course Date
+                            each date in courseDates
+                                if booking.Course.formattedDate == date.formattedDate
+                                    option(value=date.id, selected, autocomplete="off")= "* " + date.formattedDate
+                                else
+                                    option(value=date.id, autocomplete="off")= date.formattedDate
+                        label(for="date"+booking.id).label Date
+                        .underline
+                    .input-container
+                        input(type="email", id="email"+booking.id, name="email", value=booking.userEmail, placeholder=" ", onchange="checkUserEmail(this)", required).email
+                        label(for="email"+booking.id).label Email
+                        .underline
+                    .input-container
+                        if booking.paid == true
+                            input(type="checkbox", id="paid"+booking.id, name="paid", checked).required.paid
+                        else
+                            input(type="checkbox", id="paid"+booking.id, name="paid").required.paid
+                        label(for="paid"+booking.id).label Paid
+                    if booking.orderId
+                        span.input-container Order ID: #{booking.orderId}
+                    button(onclick="this.innerText = this.innerText == 'Show User' ? 'Hide User' : 'Show User'; this.nextElementSibling.classList.toggle('hide')", type="button") Show User
+                    .userDetails.hide
+                        .input-container
+                            input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ", disabled).firstName
+                            label(for="firstName"+booking.id).label First name
+                            .underline
+                        .input-container
+                            input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ", disabled).surname
+                            label(for="surname"+booking.id).label Surname
+                            .underline
+                        .input-container
+                            input(type="text", id="mobileNumber"+booking.id, name="mobileNumber", value=booking.User.mobileNumber, placeholder=" ", disabled).mobileNumber
+                            label(for="mobileNumber"+booking.id).label Mobile number
+                            .underline
+                        .input-container
+                            input(type="text", id="postcode"+booking.id, name="postcode", value=booking.User.postcode, placeholder=" ", disabled).postcode
+                            label(for="postcode"+booking.id).label Postcode
+                            .underline
+                        .input-container
+                            input(type="text", id="licenseNumber"+booking.id, name="licenseNumber", value=booking.User.licenseNumber, placeholder="", disabled).licenseNumber
+                            label(for="licenseNumber"+booking.id).label License number
+                            .underline
+                        .input-container
+                            if booking.User.hgvLicense == true
+                                input(type="checkbox", id="hgvLicense"+booking.id, name="hgvLicense", checked, disabled).required.hgvLicense
+                            else
+                                input(type="checkbox", id="hgvLicense"+booking.id, name="hgvLicense", disabled).required.hgvLicense
+                            label(for="hgvLicense"+booking.id) HGV License
+                            br
+                            br
+                            if booking.User.pcvLicense == true
+                                input(type="checkbox", id="pcvLicense"+booking.id, name="pcvLicense", checked, disabled).required.pcvLicense
+                            else
+                                input(type="checkbox", id="pcvLicense"+booking.id, name="pcvLicense", disabled).required.pcvLicense
+                            label(for="pcvLicense"+booking.id) PCV License
+                    .buttons
+                        button(type="submit") Update
+                        button(onclick="destroy(this)", type="button") Delete
+        h2 Create new booking
+        form.booking(onsubmit="create(this); return false;")#newBooking
+            .input-container
+                select(name="date", placeholder=" ", autocomplete="off", required).date#date
+                    option(value="", selected, disabled, hidden, autocomplete="off") Select Course Date
+                    each date in courseDates
+                        option(value=date.id, autocomplete="off")= date.formattedDate
+                label(for="date").label Date
+                .underline
+            .input-container
+                input(type="email", name="email", placeholder=" ", onchange="checkUserEmail(this)", required).email#email
+                label(for="email").label Email
+                .underline
+            .input-container
+                input(type="checkbox", id="paid", name="paid").required.paid
+                label(for="paid").label Paid
+            #userDetails.userDetails
+                .input-container
+                    input(type="text", name="firstName", placeholder=" ").firstName#firstName
+                    label(for="firstName").label First name
+                    .underline
+                .input-container
+                    input(type="text", name="surname", placeholder=" ").surname#surname
+                    label(for="surname").label Surname
+                    .underline
+                .input-container
+                    input(type="tel", name="mobileNumber", placeholder=" ").mobileNumber#mobileNumber
+                .input-container
+                    input(type="text", name="postcode", placeholder=" ").postcode#postcode
+                    label(for="postcode").label Postcode
+                    .underline
+                .input-container
+                    input(type="text", name="licenseNumber", placeholder=" ").licenseNumber#licenseNumber
+                    label(for="licenseNumber").label License number
+                    .underline
+                .input-container
+                    input(type="checkbox", name="hgvLicense").required.hgvLicense
+                    label(for="hgvLicense") HGV License
+                    br
+                    br
+                    input(type="checkbox", name="pcvLicense").required.pcvLicense
+                    label(for="pcvLicense") PCV License
+            .buttons
+                button(type="submit") Save
+        +footer()
+        script.
+            const phoneInputField = document.querySelector("#mobileNumber");
+            const phoneInput = window.intlTelInput(phoneInputField, {
+               utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+               countryOrder: ["gb"],
+               initialCountry: "gb",
+               separateDialCode: true,
+            });

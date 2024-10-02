@@ -1,0 +1,627 @@
+:root {
+    --background: #f9fbff;
+    --foreground: #333138;
+    --accent1: #81b3ec;
+    --accent2: #54a4de;
+    --accent3: #ffa69e;
+    --accentLight: #d9e9fc;
+    /*--table2: #c8e1ff;*/
+    --red: #fd1500;
+}
+
+.hide {
+    display: none !important;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.buttonWrapper {
+    text-align: center;
+}
+
+.red {
+    color: var(--red);
+}
+
+.danger {
+    background-color: var(--red);
+}
+
+button.danger:hover {
+    text-shadow: var(--red) 0 0;
+}
+
+.toastify.error {
+    background: linear-gradient(135deg, #ff7373, #db3f3f);
+}
+
+.toastify.success {
+    background: linear-gradient(135deg, #65db77, #4dbd36);
+}
+
+html,
+body {
+    margin: 0;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+body {
+    margin: 80px 0 0;
+    padding: 50px 50px 280px 50px;
+    min-height: calc(100vh - 80px);
+    position: relative;
+}
+* {
+    box-sizing: border-box;
+}
+#menu {
+    position: fixed;
+    width: 100vw;
+    height: 80px;
+    background-color: var(--background);
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-shadow: 0px -30px 45px 0px #448;
+    z-index: 999;
+    overflow: hidden;
+    transition: height 0.6s;
+
+    #logo {
+        height: 60px;
+        width: 148px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+    }
+
+    #home {
+        margin-left: 150px;
+    }
+
+    a {
+        margin: 0 10px;
+
+        &:not(:has(#logo)) {
+            position: relative;
+
+            &:after {
+                content: "";
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 100%;
+                height: 0.1em;
+                background-color: var(--accent1);
+                transition:
+                    opacity 300ms,
+                    transform 300ms;
+                opacity: 1;
+                transform: scale(0);
+                transform-origin: center;
+            }
+            &:hover:after,
+            &:focus:after {
+                transform: translate3d(0, 0.2em, 0);
+                transform: scale(1);
+            }
+        }
+    }
+
+    a,
+    span {
+        color: var(--foreground);
+        line-height: 40px;
+        text-decoration: none;
+        font-size: 16px;
+        vertical-align: middle;
+    }
+
+    .right {
+        float: right;
+    }
+
+    #basketCount {
+        position: relative;
+        display: inline-block;
+        font-size: 25px;
+
+        &:before {
+            content: attr(data-basket);
+            font-size: 14px;
+            position: absolute;
+            background-color: var(--accent2);
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            border-radius: 50%;
+            color: var(--background);
+            padding: 0 6px;
+            right: -10px;
+        }
+    }
+
+    .loginWrapper {
+        display: inline;
+    }
+
+    #burger {
+        display: none;
+    }
+}
+
+#burger {
+    position: absolute;
+    cursor: pointer;
+    width: 30px;
+    height: 24px;
+    top: 24px;
+    right: 22px;
+
+    input[type="checkbox"] {
+        display: none;
+        visibility: hidden;
+
+        &:checked ~ span.top {
+            transform: rotate(45deg);
+            transform-origin: top left;
+            width: 30px;
+            left: 3px;
+        }
+
+        &:checked ~ span.bottom {
+            transform: rotate(-45deg);
+            transform-origin: top left;
+            width: 30px;
+            bottom: -1px;
+            /*box-shadow: 0px 0px 1px 0px #495057;*/
+        }
+
+        &:checked ~ span.middle {
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+    }
+
+    span {
+        position: absolute;
+        width: 30px;
+        height: 4px;
+        background: var(--accent1);
+        border-radius: 100px;
+        display: inline-block;
+        transition: 0.3s ease;
+        left: 0;
+    }
+
+    span.top {
+        top: 0;
+    }
+
+    span.middle {
+        top: 10px;
+    }
+
+    span.bottom {
+        bottom: 0;
+    }
+}
+
+@media only screen and (max-width: 950px) {
+    #menu {
+        &:has(#burger input[type="checkbox"]:checked) {
+            height: 400px;
+        }
+
+        & > *:not(#basketCount) {
+            display: block;
+
+            &::after {
+                bottom: 2px !important;
+            }
+        }
+
+        #home {
+            margin-left: 10px;
+            margin-top: 80px;
+        }
+
+        .right {
+            float: initial;
+        }
+
+        #basketCount {
+            position: absolute !important;
+            top: 17px;
+            right: 67px;
+        }
+    }
+
+    .courseName {
+        grid-area: name;
+    }
+    .course {
+        grid-template-areas: "name name name name" "date date date price" "space space button button";
+        grid-template-columns: 1fr 1fr 1fr 1fr !important;
+        grid-gap: 20px;
+    }
+    .courseDate {
+        grid-area: date;
+        text-align: left !important;
+    }
+    .coursePrice {
+        grid-area: price;
+        text-align: right !important;
+    }
+    .addToBasket {
+        grid-area: button;
+    }
+    .courseSpace,
+    .nextSpace {
+        grid-area: space;
+        text-align: left !important;
+        margin-left: 0px !important;
+    }
+
+    .row,
+    .course {
+        &:has(.courseSpace) {
+            grid-template-areas: "name name   name   name " "date date   date   price" "space space button button";
+        }
+    }
+}
+
+h1,
+h2,
+h3 {
+    text-align: center;
+}
+
+h2,
+h3 {
+    margin-top: 50px;
+    text-align: left;
+}
+
+.table {
+    max-width: 1100px;
+    margin: 0 auto 50px;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 1fr 250px 75px 150px;
+    padding: 20px;
+    border-bottom: 2px solid var(--accent1);
+
+    a {
+        color: var(--foreground);
+    }
+
+    button {
+        margin: 0 0 0 auto;
+        width: 130px;
+    }
+
+    &:has(.nextSpace) {
+        grid-template-columns: 1fr 175px 250px 75px 150px;
+    }
+
+    & > span,
+    & > a {
+        align-content: center;
+    }
+
+    & > :not(:first-child) {
+        text-align: center;
+    }
+
+    &:first-of-type {
+        border-top: 2px solid var(--accent1);
+    }
+
+    .courseSpace,
+    .nextSpace {
+        margin-left: 10px;
+    }
+}
+
+button,
+.button {
+    background-color: var(--accent1);
+    border: none;
+    color: transparent;
+    text-shadow: white 0 0;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0px 0px 20px -15px #448;
+    transition:
+        color 0.3s,
+        background-color 0.3s,
+        transform 0.3s,
+        text-shadow 0.3s;
+
+    &:hover {
+        background-color: white;
+        text-shadow: var(--accent1) 0 0;
+    }
+
+    &:active {
+        transform: scale(0.9);
+    }
+
+    &[disabled] {
+        background-color: gray !important;
+        color: white !important;
+        transform: none !important;
+        cursor: default !important;
+        text-shadow: none !important;
+    }
+}
+
+.addToBasket {
+    position: relative;
+
+    &:before {
+        content: "\1F6D2";
+        opacity: 0;
+        color: var(--accent1);
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transition:
+            opacity 0.3s,
+            left 0.3s;
+    }
+
+    &.inBasket {
+        text-shadow: transparent 0 0;
+        background-color: white;
+
+        &:before {
+            opacity: 1;
+            left: 50%;
+            color: var(--accent1);
+        }
+    }
+}
+
+.input-container {
+    position: relative;
+    margin: 50px auto;
+    width: 400px;
+    max-width: 100%;
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+        font-family: inherit;
+        font-size: 18px;
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        padding: 5px 0;
+        background-color: transparent;
+        outline: none;
+
+        &:focus ~ .label,
+        &:not(:placeholder-shown) ~ .label,
+        &[type="date"] ~ .label,
+        &[type="datetime-local"] ~ .label,
+        select ~ .label {
+            top: -20px;
+            font-size: 16px;
+            color: #333;
+        }
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="password"],
+    textarea {
+        &:focus ~ .underline,
+        &:not(:placeholder-shown) ~ .underline {
+            transform: scaleX(1);
+        }
+    }
+
+    input[type="email"],
+    input[type="tel"],
+    select {
+        &:focus ~ .underline,
+        &:valid ~ .underline {
+            transform: scaleX(1);
+        }
+    }
+
+    input[type="date"],
+    input[type="datetime-local"] {
+        &:focus ~ .underline,
+        &[data-value]:not([data-value=""]) ~ .underline {
+            transform: scaleX(1);
+        }
+    }
+
+    .label,
+    .iti:before {
+        position: absolute;
+        top: 5px;
+        left: 0;
+        color: #999;
+        transition: all 0.3s ease;
+        pointer-events: none;
+        font-size: 18px;
+    }
+
+    .underline,
+    .iti:after {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 2px;
+        width: 100%;
+        background-color: var(--accent1);
+        transform: scaleX(0);
+        transition: all 0.3s ease;
+    }
+
+    .iti {
+        width: 100%;
+
+        &:before {
+            content: "Mobile Number *";
+            left: 90px;
+        }
+
+        &:after {
+            content: "";
+        }
+
+        &:has(input[type="tel"]:focus):before,
+        &:has(input[type="tel"]:not(:placeholder-shown)):before {
+            top: -20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        &:has(input[type="tel"]:focus):after,
+        &:has(input[type="tel"]:valid):after {
+            transform: scaleX(1);
+        }
+    }
+
+    input[readonly] {
+        background-color: #b9b9b95e;
+        border-radius: 5px;
+        padding-left: 5px;
+    }
+
+    &:has(input[readonly])::after {
+        content: "Read only";
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-style: italic;
+        font-size: 0.8em;
+    }
+
+    &:has(input[type="checkbox"]) {
+        text-align: left;
+
+        .label {
+            top: 0;
+            color: inherit;
+            left: 25px;
+        }
+    }
+}
+
+.accordion {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background-color: var(--accentLight);
+    color: var(--foreground);
+    font-size: 15px;
+    text-align: left;
+    transition: 0.4s;
+    cursor: pointer;
+    margin: 10px auto 0;
+    display: block;
+    max-width: 700px;
+
+    &:hover {
+        color: var(--accent1);
+        background-color: white;
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &:after {
+        content: "\002B";
+        float: right;
+        margin-left: 5px;
+        color: inherit;
+        font-weight: bold;
+    }
+
+    + div {
+        max-height: 0;
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 0 10px;
+        overflow: hidden;
+        transition:
+            max-height 0.2s ease-out,
+            padding 0.2s ease-out;
+    }
+
+    &.active {
+        color: white;
+        background-color: var(--accent1);
+
+        &:after {
+            content: "\2212";
+        }
+
+        + div {
+            border: 5px solid var(--accent1);
+        }
+    }
+}
+
+div.forTesting {
+    max-width: 700px;
+    padding: 0 10px;
+    margin: 0 auto;
+    border: 5px solid var(--accentLight);
+    //opacity: 0;
+    //visibility: hidden;
+    transition: none;
+}
+
+#footer {
+    width: 100vw;
+    position: absolute;
+    z-index: 100;
+    left: 0;
+    bottom: 0;
+    background-color: var(--accentLight);
+
+    #consortium {
+        margin: 20px auto 0;
+        text-align: center;
+
+        img {
+            width: 250px;
+            max-width: calc(100vw - 40px);
+            display: block;
+            margin: 0 auto 10px;
+        }
+    }
+    #developer {
+        margin: 10px auto 20px;
+        display: block;
+        text-align: center;
+    }
+}

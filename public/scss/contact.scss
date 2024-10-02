@@ -1,0 +1,47 @@
+body {
+    counter-reset: faqs;
+}
+
+h4::before {
+    counter-increment: faqs;
+    content: counter(faqs) ". ";
+    color: var(--accent1);
+    font-size: 1.6em;
+}
+
+.contactWrapper {
+    display: flex;
+    width: 360px;
+    padding: 20px;
+    align-items: center;
+    margin: 0 auto;
+
+    span {
+        margin-right: 5px;
+    }
+
+    svg {
+        width: 40px;
+        height: 40px;
+        margin-right: 20px;
+        padding: 8px;
+        background: var(--accentLight);
+        border-radius: 5px;
+
+        path {
+            transition: fill 0.6s;
+        }
+    }
+
+    &:has(#whatsapp):hover path {
+        fill: #00b900;
+    }
+
+    &:has(#email):hover path {
+        fill: var(--accent2);
+    }
+}
+
+p#initialMessage {
+    text-align: center;
+}

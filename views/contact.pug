@@ -1,0 +1,33 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head()
+        link(rel="stylesheet", href="/css/contact.css")
+    body
+        include common/body.pug
+        +body(true, user)
+        h1 Contact
+        p#initialMessage We are currently unable to take calls, but please message us using WhatsApp or email us and we'll get back to you as soon as we can.
+        .contactWrapper
+            include assets/whatsapp.svg
+            span WhatsApp:
+            a(href="tel:+447845466549").phone +44 7845 466549
+        .contactWrapper
+            include assets/email.svg
+            span Email: 
+            a(href="mailto:"+email).email= email
+        h1 FAQs
+        h4 Are your courses online or in person?
+        p All of our courses are delivered online via Zoom, meaning you can even join from your phone!
+        h4 I don't know how to use Zoom, can you help?
+        p Of course! Contact us above and we'll be happy to help.
+        h4 How do I book a course?
+        p Just look at 
+            a(href="/book") our courses
+            span  and add any you'd like to attend to your basket. Then checkout and complete payment and you will be emailed the information you need to join your course!
+        h4 I have questions about CPC, where can I find the answers?
+        p We have the answers to many common CPC questions 
+            a(href="/about") here
+            | .
+        +footer()

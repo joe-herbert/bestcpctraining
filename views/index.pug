@@ -1,0 +1,47 @@
+doctype html
+html
+    head
+        include common/head.pug
+        +head()
+        link(rel="stylesheet", href="/css/index.css")
+    body
+        script(src="/assets/testimonials.js")
+        include common/body.pug
+        +body(true, user)
+        script(src="/js/index.js")
+        .main
+            img(src="/imgs/advert.png", onerror="this.src = '/imgs/advert.jpg'; this.onerror = undefined;")#advert
+            h1 Best CPC Training
+            .buttonWrapper
+                a(href="/book").button#bookNow BOOK NOW
+            h2 Why choose us?
+            ol#keyPoints
+                li.point Courses delivered 100% online via Zoom so you can even attend on your phone
+                li.point Rearrange whenever you need completely free of charge
+                li.point Your trainer has over 20 years' teaching experience
+                li.point All Courses are HGV and PCV registered and approved by JAUPT & DVSA
+                li.point Full 7 hour modules, lasting from 8am to 4pm with breaks
+            h2 Testimonials
+            #testimonialsWrapper
+                #testimonials
+                div(onclick="testimonialsLeft()")#left
+                div(onclick="testimonialsRight()")#right
+            h2 Book your courses
+            #courses.table
+                each course in courses
+                    if course.code != "SAVE"
+                        .course.row
+                            a(href="/course?code=" + course.code).courseName= course.name
+                            if course.spacesRemaining > 0
+                                if course.spacesRemaining <= 10
+                                    span.nextSpace.red #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                                //else if course.spacesRemaining <= 10
+                                //    span.nextSpace #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                            span.courseDate= course.formattedDate
+                            span.coursePrice= course.price
+                            if course.spacesRemaining <= 0
+                                button.addToBasket(disabled) Sold Out
+                            else
+                                button.addToBasket(onclick="if (addToBasket('" + course.id + "', '" + course.code + "')) {this.classList.toggle('inBasket')}", data-id=course.id) Add to basket
+            a(href="/book").button#allCourses All courses
+        +footer()
