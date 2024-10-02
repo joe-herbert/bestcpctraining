@@ -28,9 +28,9 @@ html
                                 button.addToBasket(disabled) Sold Out
                             else
                                 if c.spacesRemaining <= 5
-                                    span.courseSpace.red #{c.spacesRemaining + "/" + course.spaces} spaces remaining
-                                else if c.spacesRemaining <= 10
-                                    span.courseSpace #{c.spacesRemaining + "/" + course.spaces} spaces remaining
+                                    span.courseSpace.red #{c.spacesRemaining} spaces remaining
+                                //else if c.spacesRemaining <= 10
+                                    //span.courseSpace #{c.spacesRemaining} spaces remaining
                                 button.addToBasket(onclick="if (addToBasket('" + c.id + "', '" + course.code + "', true)) {this.classList.toggle('inBasket'); if (this.classList.contains('inBasket')) setTimeout(() => {window.location.href='/courses'}, 2000);}", data-id=c.id) Add to basket
                 else
                     p There are no courses of this type available to book right now. Please check back later!

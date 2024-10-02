@@ -25,9 +25,9 @@ html
                                         button.addToBasket(disabled) Sold Out
                                     else
                                         if course.spacesRemaining <= 5
-                                            span.nextSpace.red #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                                            span.nextSpace.red #{course.spacesRemaining} spaces remaining
                                         else
-                                            span.nextSpace #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                                            span.nextSpace #{course.spacesRemaining} spaces remaining
                                         button.addToBasket(onclick="if (addToBasket('" + course.nextId + "', '" + course.code + "')) {this.classList.toggle('inBasket'); refreshCoursesInBasket();}", data-id=course.nextId) &#128722;
                                 else
                                     button.addToBasket(onclick="if (addToBasket('" + course.nextId + "', '" + course.code + "')) {this.classList.toggle('inBasket'); refreshCoursesInBasket();}", data-id=course.nextId) Add to basket

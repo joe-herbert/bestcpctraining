@@ -15,7 +15,7 @@ html
                         a(href="/course?code=" + course.code).courseName= course.name
                         if course.spacesRemaining > 0
                             if course.spacesRemaining <= 10
-                                span.nextSpace.red #{course.spacesRemaining + "/" + course.spaces} spaces remaining
+                                span.nextSpace.red #{course.spacesRemaining} spaces remaining
                             //else if course.spacesRemaining <= 10
                             //    span.nextSpace #{course.spacesRemaining + "/" + course.spaces} spaces remaining
                         span.courseDate= course.formattedDate
