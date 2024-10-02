@@ -3,7 +3,7 @@ const maxBasketItems = 5;
 function toast(options) {
     Toastify({
         ...{
-            duration: 30000,
+            duration: 5000,
             gravity: "top",
             position: "center",
             offset: {
