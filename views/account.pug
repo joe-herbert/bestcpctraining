@@ -62,16 +62,16 @@ html
                     .underline
                 .input-container
                     if userDetails.hgvLicense
-                        input(type="checkbox", name="hgvLicense", checked)#hgvLicense.required
+                        input(type="checkbox", name="hgvLicense", onchange="checkboxChecked(this.parentElement.parentElement)", checked)#hgvLicense.required
                     else
-                        input(type="checkbox", name="hgvLicense")#hgvLicense.required
+                        input(type="checkbox", name="hgvLicense", onchange="checkboxChecked(this.parentElement.parentElement)")#hgvLicense.required
                     label(for="hgvLicense") Do you have a HGV License?
                     br
                     br
                     if userDetails.pcvLicense
-                        input(type="checkbox", name="pcvLicense", checked)#pcvLicense.required
+                        input(type="checkbox", name="pcvLicense", onchange="checkboxChecked(this.parentElement.parentElement)", checked)#pcvLicense.required
                     else
-                        input(type="checkbox", name="pcvLicense")#pcvLicense.required
+                        input(type="checkbox", name="pcvLicense", onchange="checkboxChecked(this.parentElement.parentElement)")#pcvLicense.required
                     label(for="pcvLicense") Do you have a PCV License?
                 .input-container
                     input(type="tel", name="mobileNumber", value=userDetails.mobileNumber, placeholder=" ", required)#mobileNumber

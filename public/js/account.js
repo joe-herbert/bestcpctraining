@@ -111,6 +111,10 @@ function repeatedPasswordChange(form) {
     }
 }
 
+function checkboxChecked(form) {
+    form.hgvLicense.setCustomValidity("");
+}
+
 function changePassword(form) {
     if (form.newPassword.value !== form.newPasswordRepeated.value) {
         form.newPasswordRepeated.setCustomValidity("This doesn't match the password you've entered above.");
