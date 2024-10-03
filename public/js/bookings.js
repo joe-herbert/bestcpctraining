@@ -126,20 +126,22 @@ function checkUserEmail(emailInput) {
 }
 
 function showUserDetails(userDetails) {
-    userDetails.classList.remove("hide");
-    userDetails.querySelector(".firstName").disabled = false;
-    userDetails.querySelector(".surname").disabled = false;
+    let button = userDetails.closest("form").querySelector(".showButton");
+    button.innerText = button.innerText == 'Show User' ? 'Hide User' : 'Show User';
+    userDetails.querySelector(".email").disabled = false;
     userDetails.querySelector(".mobileNumber").disabled = false;
     userDetails.querySelector(".postcode").disabled = false;
     userDetails.querySelector(".licenseNumber").disabled = false;
     userDetails.querySelector(".hgvLicense").disabled = false;
     userDetails.querySelector(".pcvLicense").disabled = false;
+    userDetails.classList.remove("hide");
 }
 
 function hideUserDetails(userDetails) {
+    let button = userDetails.closest("form").querySelector(".showButton");
+    button.innerText = button.innerText == 'Show User' ? 'Hide User' : 'Show User';
     userDetails.classList.add("hide");
-    userDetails.querySelector(".firstName").disabled = true;
-    userDetails.querySelector(".surname").disabled = true;
+    userDetails.querySelector(".email").disabled = true;
     userDetails.querySelector(".mobileNumber").disabled = true;
     userDetails.querySelector(".postcode").disabled = true;
     userDetails.querySelector(".licenseNumber").disabled = true;

@@ -428,7 +428,20 @@ router.post("/updateBooking", admin, (req, res) => {
     })
         .then((user) => {
             if (user) {
-                updateBooking(req, res, req.body.userEmail);
+                if (req.body.firstName) user.firstName = req.body.firstName.toUpperCase();
+                if (req.body.surname) user.surname = req.body.surname.toUpperCase();
+                if (req.body.licenseNumber) user.licenseNumber = req.body.licenseNumber;
+                if (req.body.hgvLicense !== undefined) user.hgvLicense = req.body.hgvLicense;
+                if (req.body.pcvLicense !== undefined) user.pcvLicense = req.body.pcvLicense;
+                if (req.body.mobileNumber) user.mobileNumber = req.body.mobileNumber;
+                if (req.body.postcode) user.postcode = req.body.postcode;
+                user.save()
+                    .then((user) => {
+                        updateBooking(req, res, req.body.userEmail);
+                    })
+                    .catch((err) => {
+                        res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
+                    });
             } else {
                 let newUser = {
                     email: req.body.userEmail,

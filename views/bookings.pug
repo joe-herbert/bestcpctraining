@@ -33,47 +33,47 @@ html
                             input(type="checkbox", id="paid"+booking.id, name="paid").required.paid
                         label(for="paid"+booking.id).label Paid
                     .input-container
-                        input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ", disabled).firstName.caps
+                        input(type="text", id="firstName"+booking.id, name="firstName", value=booking.User.firstName, placeholder=" ").firstName.caps
                         label(for="firstName"+booking.id).label First name
                         .underline
                     .input-container
-                        input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ", disabled).surname.caps
+                        input(type="text", id="surname"+booking.id, name="surname", value=booking.User.surname, placeholder=" ").surname.caps
                         label(for="surname"+booking.id).label Surname
                         .underline
                     if booking.orderId
                         span.input-container Order ID: #{booking.orderId}
                     else
                         br
-                    button(onclick="this.innerText = this.innerText == 'Show User' ? 'Hide User' : 'Show User'; this.nextElementSibling.classList.toggle('hide')", type="button") Show User
+                    button(onclick="if (this.innerText === 'Show User') { showUserDetails(this.nextElementSibling); } else { hideUserDetails(this.nextElementSibling); }", type="button").showButton Show User
                     .userDetails.hide
                         .input-container
                             input(type="email", id="email"+booking.id, name="email", value=booking.userEmail, placeholder=" ", onchange="checkUserEmail(this)", required).email
                             label(for="email"+booking.id).label Email
                             .underline
                         .input-container
-                            input(type="text", id="mobileNumber"+booking.id, name="mobileNumber", value=booking.User.mobileNumber, placeholder=" ", disabled).mobileNumber
+                            input(type="text", id="mobileNumber"+booking.id, name="mobileNumber", value=booking.User.mobileNumber, placeholder=" ").mobileNumber
                             label(for="mobileNumber"+booking.id).label Mobile number
                             .underline
                         .input-container
-                            input(type="text", id="postcode"+booking.id, name="postcode", value=booking.User.postcode, placeholder=" ", disabled).postcode.caps
+                            input(type="text", id="postcode"+booking.id, name="postcode", value=booking.User.postcode, placeholder=" ").postcode.caps
                             label(for="postcode"+booking.id).label Postcode
                             .underline
                         .input-container
-                            input(type="text", id="licenseNumber"+booking.id, name="licenseNumber", value=booking.User.licenseNumber, placeholder="", disabled).licenseNumber.caps
+                            input(type="text", id="licenseNumber"+booking.id, name="licenseNumber", value=booking.User.licenseNumber, placeholder="").licenseNumber.caps
                             label(for="licenseNumber"+booking.id).label License number
                             .underline
                         .input-container
                             if booking.User.hgvLicense == true
-                                input(type="checkbox", id="hgvLicense"+booking.id, name="hgvLicense", checked, disabled).required.hgvLicense
+                                input(type="checkbox", id="hgvLicense"+booking.id, name="hgvLicense", checked).required.hgvLicense
                             else
-                                input(type="checkbox", id="hgvLicense"+booking.id, name="hgvLicense", disabled).required.hgvLicense
+                                input(type="checkbox", id="hgvLicense"+booking.id, name="hgvLicense").required.hgvLicense
                             label(for="hgvLicense"+booking.id) HGV License
                             br
                             br
                             if booking.User.pcvLicense == true
-                                input(type="checkbox", id="pcvLicense"+booking.id, name="pcvLicense", checked, disabled).required.pcvLicense
+                                input(type="checkbox", id="pcvLicense"+booking.id, name="pcvLicense", checked).required.pcvLicense
                             else
-                                input(type="checkbox", id="pcvLicense"+booking.id, name="pcvLicense", disabled).required.pcvLicense
+                                input(type="checkbox", id="pcvLicense"+booking.id, name="pcvLicense").required.pcvLicense
                             label(for="pcvLicense"+booking.id) PCV License
                     .buttons
                         button(type="submit") Update
