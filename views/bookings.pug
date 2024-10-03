@@ -47,7 +47,7 @@ html
                     button(onclick="if (this.innerText === 'Show User') { showUserDetails(this.nextElementSibling); } else { hideUserDetails(this.nextElementSibling); }", type="button").showButton Show User
                     .userDetails.hide
                         .input-container
-                            input(type="email", id="email"+booking.id, name="email", value=booking.userEmail, placeholder=" ", onchange="checkUserEmail(this)", required).email
+                            input(type="email", id="email"+booking.id, name="email", value=booking.userEmail, placeholder=" ", onchange="checkUserEmail(this)", required, disabled).email
                             label(for="email"+booking.id).label Email
                             .underline
                         .input-container
