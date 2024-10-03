@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             CourseType.hasMany(models.Course, {
                 foreignKey: "code",
+                onDelete: "CASCADE",
             });
         }
     }
@@ -42,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "CourseType",
-            timestamps: false,
+            paranoid: true,
         }
     );
     return CourseType;

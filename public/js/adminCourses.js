@@ -55,7 +55,7 @@ function create(form) {
 
 function destroy(button) {
     let form = button.closest("form");
-    if (window.confirm(`Are you sure you want to delete this course? This cannot be undone.`)) {
+    if (window.confirm(`WARNING: This will also delete all bookings linked to this course.\nAre you sure you want to delete this course? This cannot be undone.`)) {
         let data = {
             id: form.id.value,
         };

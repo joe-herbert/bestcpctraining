@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             // define association here
             Course.hasMany(models.Booking, {
                 foreignKey: "courseId",
+                onDelete: "CASCADE",
             });
             Course.belongsTo(models.CourseType, {
                 foreignKey: "code",
@@ -51,6 +52,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Course",
+            paranoid: true,
         }
     );
     return Course;

@@ -105,17 +105,35 @@ router.post("/deleteCourseType", admin, (req, res) => {
         res.status(400).send("Code must be provided");
         return false;
     }
-    models.CourseType.destroy({
+    models.Course.findAll({
         where: {
             code: req.body.code,
         },
-    })
-        .then((result) => {
-            res.sendStatus(200);
-        })
-        .catch((err) => {
-            res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
+    }).then((courses) => {
+        models.Booking.destroy({
+            where: {
+                courseId: courses.map((course) => course.id),
+            },
+        }).then((bookingsDeleted) => {
+            models.Course.destroy({
+                where: {
+                    code: req.body.code,
+                },
+            }).then((coursesDeleted) => {
+                models.CourseType.destroy({
+                    where: {
+                        code: req.body.code,
+                    },
+                })
+                    .then((result) => {
+                        res.sendStatus(200);
+                    })
+                    .catch((err) => {
+                        res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
+                    });
+            });
         });
+    });
 });
 
 function toISOString(date) {
@@ -245,17 +263,23 @@ router.post("/deleteCourse", admin, (req, res) => {
         return false;
     }
     console.log(req.body.id);
-    models.Course.destroy({
+    models.Booking.destroy({
         where: {
-            id: req.body.id,
+            courseId: req.body.id,
         },
-    })
-        .then((result) => {
-            res.sendStatus(200);
+    }).then((bookingsDeleted) => {
+        models.Course.destroy({
+            where: {
+                id: req.body.id,
+            },
         })
-        .catch((err) => {
-            res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
-        });
+            .then((result) => {
+                res.sendStatus(200);
+            })
+            .catch((err) => {
+                res.status(500).send(`Error${sendErr(err.message)}. Please try again later`);
+            });
+    });
 });
 
 router.post("/userExists", admin, (req, res) => {
