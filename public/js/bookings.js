@@ -127,7 +127,7 @@ function checkUserEmail(emailInput) {
 
 function showUserDetails(userDetails) {
     let button = userDetails.closest("form").querySelector(".showButton");
-    button.innerText = button.innerText == 'Show User' ? 'Hide User' : 'Show User';
+    button.innerText = button.innerText == "Show User" ? "Hide User" : "Show User";
     userDetails.querySelector(".mobileNumber").disabled = false;
     userDetails.querySelector(".postcode").disabled = false;
     userDetails.querySelector(".licenseNumber").disabled = false;
@@ -138,11 +138,33 @@ function showUserDetails(userDetails) {
 
 function hideUserDetails(userDetails) {
     let button = userDetails.closest("form").querySelector(".showButton");
-    button.innerText = button.innerText == 'Show User' ? 'Hide User' : 'Show User';
+    button.innerText = button.innerText == "Show User" ? "Hide User" : "Show User";
     userDetails.classList.add("hide");
     userDetails.querySelector(".mobileNumber").disabled = true;
     userDetails.querySelector(".postcode").disabled = true;
     userDetails.querySelector(".licenseNumber").disabled = true;
     userDetails.querySelector(".hgvLicense").disabled = true;
     userDetails.querySelector(".pcvLicense").disabled = true;
+}
+
+function togglePast(button) {
+    if (button.dataset.shown === "true") {
+        button
+            .closest("#bookings")
+            .querySelectorAll("form.booking.past")
+            .forEach((course) => {
+                course.classList.add("hide");
+            });
+        button.dataset.shown = "false";
+        button.innerText = "Show";
+    } else {
+        button
+            .closest("#bookings")
+            .querySelectorAll("form.booking.past")
+            .forEach((course) => {
+                course.classList.remove("hide");
+            });
+        button.dataset.shown = "true";
+        button.innerText = "Hide";
+    }
 }

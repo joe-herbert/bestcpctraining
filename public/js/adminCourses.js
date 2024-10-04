@@ -147,10 +147,32 @@ function exportToCsv(filename, rows, titles) {
 }
 
 function dateToUTC(date) {
-	console.log("!", date);
-	if (typeof date === "string") {
-		date = new Date(date);
-	}
-	console.log("!!", date.toISOString(), date);
-	return date.toISOString();
+    console.log("!", date);
+    if (typeof date === "string") {
+        date = new Date(date);
+    }
+    console.log("!!", date.toISOString(), date);
+    return date.toISOString();
+}
+
+function togglePast(button) {
+    if (button.dataset.shown === "true") {
+        button
+            .closest("#courses")
+            .querySelectorAll("form.course.past")
+            .forEach((course) => {
+                course.classList.add("hide");
+            });
+        button.dataset.shown = "false";
+        button.innerText = "Show";
+    } else {
+        button
+            .closest("#courses")
+            .querySelectorAll("form.course.past")
+            .forEach((course) => {
+                course.classList.remove("hide");
+            });
+        button.dataset.shown = "true";
+        button.innerText = "Hide";
+    }
 }

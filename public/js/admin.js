@@ -26,10 +26,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function generateNewPassword() {
-	let email = document.getElementById("newPasswordEmail").value;
-	if (email) {
-		post({ email: email }, "admin/newPassword", (response) => {
-			document.getElementById("newPasswordOutput").innerText = "New password: " + response.password;
-		}, "json");
-	}
+    let email = document.getElementById("newPasswordEmail").value;
+    if (email) {
+        post(
+            { email: email },
+            "admin/newPassword",
+            (response) => {
+                document.getElementById("newPasswordOutput").innerText = "New password: " + response.password;
+            },
+            "json"
+        );
+    }
 }

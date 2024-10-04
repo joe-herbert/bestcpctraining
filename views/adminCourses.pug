@@ -10,8 +10,18 @@ html
         script(src="/js/adminCourses.js")
         h1 Courses
         #courses
+            - var past = false
+            - var upcoming = false
             each course in courses
-                form.course(onsubmit="update(this); return false;")
+                if course.milliseconds < today && past == false
+                    - past = true
+                    h4 Past
+                    button(onclick="togglePast(this)") Show
+                else if course.milliseconds >= today && upcoming == false
+                    - upcoming = true
+                    h4#upcoming Upcoming
+                - var classlist = course.milliseconds < today ? "past hide" : "";
+                form.course(onsubmit="update(this); return false;", class=classlist)
                     input(type="text", name="id", value=course.id, readonly).hide
                     .input-container
                         input(type="datetime-local", name="date", id="date"+course.id, value=course.formattedDate, placeholder=" ", onchange="this.dataset.value=this.value", data-value=course.formattedDate, required).date
@@ -31,6 +41,8 @@ html
                                     option(value=type.code, autocomplete="off")= type.name
                         label(for="code"+course.id).label Course Type
                         .underline
+                    .input-container
+                        span.spacesRemaining #{course.bookings}/#{course.spaces} spaces booked
                     .buttons
                         button(type="submit") Update
                         button(onclick="destroy(this)", type="button") Delete

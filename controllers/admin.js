@@ -149,22 +149,38 @@ function toISOString(date) {
 router.get("/courses", admin, (req, res) => {
     models.Course.findAll({
         order: [["date", "ASC"]],
+        include: {
+            model: models.Booking,
+            required: false,
+            attributes: ["id"],
+        },
     })
         .then((courses) => {
             courses.forEach((course) => {
                 course.formattedDate = formatDate(course.date);
                 course.price = course.price.toFixed(2);
+                course.bookings = course.Bookings.length;
+                course.milliseconds = new Date(course.date).getTime();
+                delete course.Bookings;
             });
             models.CourseType.findAll()
                 .then((courseTypes) => {
+                    console.log(courseTypes);
+                    courses.forEach((course) => {
+                        let type = courseTypes.find((t) => t.code === course.code);
+                        course.spaces = type.spaces;
+                    });
                     let nextSaturday = new Date();
                     nextSaturday.setDate(nextSaturday.getDate() + (6 - nextSaturday.getDay()));
                     nextSaturday.setHours(9, 0, 0);
+                    let today = new Date();
+                    today.setTime(today.getTime() + 60 * 60 * 1000);
                     res.render("adminCourses", {
                         title: "Courses - Admin",
                         courses: courses,
                         defaultDate: nextSaturday,
                         courseTypes: courseTypes,
+                        today: today,
                     });
                 })
                 .catch((err) => {
@@ -336,11 +352,15 @@ router.get("/bookings", admin, (req, res) => {
                     }
                     bookings.forEach((booking) => {
                         booking.Course.formattedDate = new Date(booking.Course.date).toLocaleString("en-GB", dateFormat) + " - " + booking.Course.code;
+                        booking.milliseconds = new Date(booking.Course.date).getTime();
                     });
+                    let today = new Date();
+                    today.setTime(today.getTime() + 60 * 60 * 1000);
                     res.render("bookings", {
                         title: "Bookings - Admin",
                         bookings: bookings,
                         courseDates: courseDates,
+                        today: today,
                     });
                 })
                 .catch((err) => {
@@ -666,6 +686,7 @@ router.post("/getCSVData", admin, (req, res) => {
 
 const generator = require("generate-password");
 const bcrypt = require("bcrypt");
+const { core } = require("@paypal/checkout-server-sdk");
 
 router.post("/newPassword", admin, async (req, res) => {
     if (!req.body.email) {

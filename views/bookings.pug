@@ -13,8 +13,18 @@ html
         script(src="/js/bookings.js")
         h1 Bookings
         #bookings
+            - var past = false
+            - var upcoming = false
             each booking in bookings
-                form.booking(onsubmit="update(this); return false;")
+                if booking.milliseconds < today && past == false
+                    - past = true
+                    h4 Past
+                    button(onclick="togglePast(this)") Show
+                else if booking.milliseconds >= today && upcoming == false
+                    - upcoming = true
+                    h4#upcoming Upcoming
+                - var classlist = booking.milliseconds < today ? "past hide" : "";
+                form.booking(onsubmit="update(this); return false;", class=classlist)
                     input(type="text", name="id", value=booking.id, readonly).hide
                     .input-container
                         select(name="date", id="date"+booking.id, placeholder=" ", autocomplete="off", required).date
