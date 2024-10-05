@@ -628,7 +628,7 @@ router.get("/trainer", (req, res) => {
 router.get("/contact", (req, res) => {
     res.render("contact", {
         title: "Contact",
-        email: USER_EMAIL || "admin@bestcpctraining.co.uk",
+        email: "bestcpctraining@hotmail.com", // USER_EMAIL || "admin@bestcpctraining.co.uk",
     });
 });
 
