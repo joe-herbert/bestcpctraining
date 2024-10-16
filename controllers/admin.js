@@ -18,12 +18,12 @@ const storage = multer.diskStorage({
         if (ext === ".jpeg" || ext === ".jpg") {
             ext = ".jpg";
             try {
-                fs.unlinkSync(path.resolve(__dirname, "../public/imgs/advert.png"));
+                fs.unlinkSync(path.resolve(__dirname, "../public/imgs/welcome.png"));
             } catch {}
             cb(null, file.fieldname + ".jpg");
         } else if (ext === ".png") {
             try {
-                fs.unlinkSync(path.resolve(__dirname, "../public/imgs/advert.jpg"));
+                fs.unlinkSync(path.resolve(__dirname, "../public/imgs/welcome.jpg"));
             } catch {}
             cb(null, file.fieldname + ".png");
         } else {
@@ -626,7 +626,7 @@ router.post("/deleteDiscount", admin, (req, res) => {
         });
 });
 
-router.post("/uploadAdvert", admin, upload.single("advert"), (req, res) => {
+router.post("/uploadAdvert", admin, upload.single("welcome"), (req, res) => {
     res.sendStatus(200);
 });
 

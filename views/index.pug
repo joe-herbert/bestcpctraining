@@ -2,16 +2,19 @@ doctype html
 html
     head
         include common/head.pug
-        +head()
+        +head(title, true)
+        title= title
         link(rel="stylesheet", href="/css/index.css")
+        link(rel="canonical", href="https://bestcpctraining.co.uk")
     body
         script(src="/assets/testimonials.js")
         include common/body.pug
         +body(true, user)
         script(src="/js/index.js")
         .main
-            img(src="/imgs/advert.png", onerror="this.src = '/imgs/advert.jpg'; this.onerror = undefined;")#advert
+            img(src="/imgs/welcome.png", onerror="this.src = '/imgs/welcome.jpg'; this.onerror = undefined;")#advert
             h1 Best CPC Training
+            h3.subheading Online Driver CPC Courses
             .buttonWrapper
                 a(href="/book").button#bookNow BOOK NOW
             h2 Why choose us?

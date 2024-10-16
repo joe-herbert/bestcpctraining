@@ -72,6 +72,7 @@ router.get("/", (req, res) => {
             }
             res.render("index", {
                 courses: courses,
+                title: "Best CPC Training - Online Driver CPC Courses",
             });
         })
         .catch((err) => {
@@ -519,7 +520,7 @@ router.get("/courses", (req, res) => {
 router.get("/course", (req, res) => {
     let today = new Date();
     today.setTime(today.getTime() + 60 * 60 * 1000);
-    if (req.query.code) {
+    if (req.query.code && req.query.code !== "SAVE") {
         models.CourseType.findOne({
             where: {
                 code: req.query.code,

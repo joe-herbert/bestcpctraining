@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     input.addEventListener("change", () => {
         if (input.files.length >= 1) {
             const formData = new FormData();
-            formData.append("advert", input.files[0]);
+            formData.append("welcome", input.files[0]);
             fetch(`${window.location.origin}/admin/uploadAdvert`, {
                 method: "POST",
                 body: formData,
