@@ -13,10 +13,10 @@ const paypal_base = process.env.NODE_ENV === "production" ? "https://api-m.paypa
 const os = require("os");
 
 const nodemailer = require("nodemailer");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
+//const { google } = require("googleapis");
+//const OAuth2 = google.auth.OAuth2;
 
-//const { EMAIL_HOST, EMAIL_PORT, EMAIL_ADDRESS, EMAIL_PASSWORD } = require("../config/email.json");
+const { EMAIL_HOST, EMAIL_PORT, EMAIL_ADDRESS, EMAIL_PASSWORD } = require("../config/zoho.json");
 /*const transporter = nodemailer.createTransport({
     service: "hotmail",
     auth: {
@@ -302,7 +302,7 @@ router.post("/forgotPassword", async (req, res) => {
     user.save();
 
     let mailOptions = {
-        from: USER_EMAIL,
+        from: EMAIL_ADDRESS,
         to: req.body.email,
         subject: "Your new password - Best CPC Training",
         html: `<body style="padding: 30px; box-sizing: border-box; width: 100%;"><img style="width: 300px; display: block; max-width:80%; margin: 0 auto;" src="${req.protocol + "://" + req.hostname}/imgs/logo.png"><br><h1 style="text-align: center;">Your temporary password is here!</h1><br><p><b>Your temporary password is: </b>${newPassword}<br>You should <a href="${req.protocol + "://" + req.hostname}/login">log in</a> and change your password immediately.</p><p>Please do not hesitate to <a href="${req.protocol + "://" + req.hostname}/contact">contact us</a> if you have any issues!</p></body>`,
@@ -312,7 +312,7 @@ router.post("/forgotPassword", async (req, res) => {
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            res.status(500).send(`There was an error sending your password reset email${sendErr(error.message)}. Please try again or contact us if the issue persists.`);
+            res.status(500).send(`There was an error sending your password reset email: ${error.message}. Please try again or contact us if the issue persists.`);
         } else {
             console.log("Email sent: " + info.response);
             res.sendStatus(200);
@@ -629,7 +629,7 @@ router.get("/trainer", (req, res) => {
 router.get("/contact", (req, res) => {
     res.render("contact", {
         title: "Contact",
-        email: "bestcpctraining@hotmail.com", // USER_EMAIL || "admin@bestcpctraining.co.uk",
+        email: "bestcpctraining@hotmail.com", // EMAIL_ADDRESS || "admin@bestcpctraining.co.uk",
     });
 });
 
@@ -652,7 +652,12 @@ router.post("/checkDiscount", (req, res) => {
         raw: true,
     })
         .then((discount) => {
-            if (!discount || (discount.expiryDate && discount.expiryDate < new Date()) || (discount.uses && discount.uses <= 0)) {
+            console.log(discount);
+            if (
+                !discount ||
+                (discount.expiryDate !== undefined && discount.expiryDate !== null && discount.expiryDate < new Date()) ||
+                (discount.uses !== undefined && discount.uses !== null && discount.uses <= 0)
+            ) {
                 res.status(200).json({
                     valid: false,
                 });
@@ -1030,7 +1035,7 @@ router.post("/completeOrder", async (req, res) => {
 
     //send confirmation email
     let mailOptions = {
-        from: USER_EMAIL,
+        from: EMAIL_ADDRESS,
         to: userEmail,
         subject: "Your CPC Training is confirmed!",
         html: `<img style="width: 300px; display: block; max-width:80%; margin: 0 auto;" src="${req.protocol + "://" + req.hostname}/imgs/logo.png"><br><h1 style="text-align: center;">Your booking is confirmed at Best CPC Training!</h1><br><p><b>Booking ID:</b> ${json.id}</p><p><b>Ordered at:</b> ${new Date().toLocaleDateString("en-Gb", dateFormat)}</p>${userCreated ? "<p><b>Your temporary password is:</b> " + newPassword + "<br>You should <a href='" + req.protocol + "://" + req.hostname + "/login'>log in</a> and change your password as soon as you can. You will also need to complete your user details in your account page before your course begins.</p>" : ""}<p>Your courses are:</p><table style="width: 80%;border: 5px solid #81b3ec;margin: 0 auto;">${generateTable(dbCourses)}</table><p>All the details you need to join your course are in the attached PDF document. Please do not hesitate to <a href="${req.protocol + "://" + req.hostname}/contact">contact us</a> if you have any issues!</p>`,
@@ -1044,7 +1049,7 @@ router.post("/completeOrder", async (req, res) => {
     };
     json.responseHtml =
         mailOptions.html +
-        `<p>You will receive a confirmation email shortly with a copy of the PDF document below.</p><a class="button" href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf", style="display: block; margin: 0 auto;">DOWNLOAD PDF</a>`;
+        `<p>You will receive a confirmation email shortly with a copy of the PDF document below. Please check your spam/junk folder and then contact us referencing your Booking ID above if you don't receive your email.</p><a class="button" href="/assets/Best%20CPC%20Training%20Link%20%26%20Candidate%20Form%20%26%20Zoom%20instructions.pdf", style="display: block; margin: 0 auto;">DOWNLOAD PDF</a>`;
     let transporter = await createTransporter();
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
@@ -1077,7 +1082,7 @@ function generateTable(courses) {
 
 const createTransporter = async () => {
     try {
-        const oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, "https://developers.google.com/oauthplayground");
+        /*const oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, "https://developers.google.com/oauthplayground");
 
         oauth2Client.setCredentials({
             refresh_token: REFRESH_TOKEN,
@@ -1104,6 +1109,18 @@ const createTransporter = async () => {
                 refreshToken: REFRESH_TOKEN,
             },
         });
+        */
+
+        const transporter = nodemailer.createTransport({
+            host: EMAIL_HOST,
+            port: EMAIL_PORT,
+            auth: {
+                user: EMAIL_ADDRESS,
+                pass: EMAIL_PASSWORD,
+            },
+            secure: true,
+        });
+
         return transporter;
     } catch (err) {
         return err;

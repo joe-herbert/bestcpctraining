@@ -11,10 +11,13 @@ mixin body(base, user)
         a(href="/eligibility") Eligibility
         a(href="/contact") Contact
         .right
+            span.hide= user
+            span.hide= typeof user
             if typeof user != "undefined" && user.permissions == "admin"
                 a(href="/admin") Admin
             a(href="/basket", title="Basket")#basketCount &#x1F6D2;
             if typeof user != "undefined"
+                span.hide= JSON.stringify(user)
                 .loginWrapper
                     a(href="/account")#loginLink Account
                     span /

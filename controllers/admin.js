@@ -27,7 +27,7 @@ const storage = multer.diskStorage({
             } catch {}
             cb(null, file.fieldname + ".png");
         } else {
-            res.status(400).send("Image must be a PNG or JPG");
+            req.res?.status(400).send("Image must be a PNG or JPG");
         }
     },
 });
@@ -711,6 +711,97 @@ router.post("/newPassword", admin, async (req, res) => {
     } else {
         res.status(400).send("No user with this email");
     }
+});
+
+/*const { USER_EMAIL, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ACCESS_TOKEN } = require("../config/gmail.json");
+const { google } = require("googleapis");
+const OAuth2 = google.auth.OAuth2;*/
+const nodemailer = require("nodemailer");
+
+const { EMAIL_HOST, EMAIL_PORT, EMAIL_ADDRESS, EMAIL_PASSWORD } = require("../config/zoho.json");
+
+/*const createTransporter = async () => {
+    try {
+        const oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, "https://developers.google.com/oauthplayground");
+
+        oauth2Client.setCredentials({
+            refresh_token: REFRESH_TOKEN,
+        });
+
+        const accessToken = await new Promise((resolve, reject) => {
+            oauth2Client.getAccessToken((err, token) => {
+                if (err) {
+                    console.log("*ERR: ", err);
+                    reject();
+                }
+                resolve(token);
+            });
+        });
+
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: USER_EMAIL,
+                accessToken,
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+            },
+        });
+        return transporter;
+    } catch (err) {
+        return err;
+    }
+};*/
+
+router.post("/testEmail", admin, async (req, res) => {
+    //res.json({ response: "hi" });
+    let mailOptions = {
+        from: EMAIL_ADDRESS,
+        to: "joecherbert@me.com",
+        subject: "Test Email from Best CPC Training!",
+        html: `<h1>Test</h1>`,
+    };
+    //let transporter = await createTransporter();
+    /*let transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            type: "OAuth2",
+            user: USER_EMAIL,
+            clientId: CLIENT_ID,
+            clientSecret: CLIENT_SECRET,
+            refreshToken: REFRESH_TOKEN,
+        },
+    });*/
+
+    const transporter = nodemailer.createTransport({
+        host: EMAIL_HOST,
+        port: EMAIL_PORT,
+        auth: {
+            user: EMAIL_ADDRESS,
+            pass: EMAIL_PASSWORD,
+        },
+        secure: true,
+    });
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.error(error);
+            res.status(500).json({
+                completed: true,
+                error: error,
+                info: info,
+            });
+        } else {
+            console.log("Email sent: " + info.response);
+            res.json({
+                completed: true,
+                info: info,
+            });
+        }
+    });
 });
 
 module.exports = router;

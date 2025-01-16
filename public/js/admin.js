@@ -38,3 +38,25 @@ function generateNewPassword() {
         );
     }
 }
+
+function testEmail() {
+    post(
+        undefined,
+        "admin/testEmail",
+        (response) => {
+            if (response.info) {
+                console.log(response.info);
+                if (response.error) {
+                    console.error(response.error);
+                    toast({ text: "Email failed to send", className: "error" });
+                } else {
+                    toast({ text: "Email successfully sent", className: "success" });
+                }
+            } else {
+                console.log(response);
+                toast({ text: "Email failed to send", className: "error" });
+            }
+        },
+        "json"
+    );
+}
