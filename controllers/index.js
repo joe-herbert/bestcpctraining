@@ -7,7 +7,7 @@ const sequelize = require("sequelize");
 const { user } = require("../middleware/admin");
 const generator = require("generate-password");
 const { PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET } = require("../config/paypal.json");
-const { USER_EMAIL, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ACCESS_TOKEN } = require("../config/gmail.json");
+//const { USER_EMAIL, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, ACCESS_TOKEN } = require("../config/gmail.json");
 const paypal_base = process.env.NODE_ENV === "production" ? "https://api-m.paypal.com" : "https://api-m.sandbox.paypal.com";
 //const paypal_base = "https://api-m.sandbox.paypal.com";
 const os = require("os");

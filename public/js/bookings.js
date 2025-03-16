@@ -127,7 +127,9 @@ function checkUserEmail(emailInput) {
 
 function showUserDetails(userDetails) {
     let button = userDetails.closest("form").querySelector(".showButton");
-    button.innerText = button.innerText == "Show User" ? "Hide User" : "Show User";
+    if (button) {
+        button.innerText = button.innerText == "Show User" ? "Hide User" : "Show User";
+    }
     userDetails.querySelector(".mobileNumber").disabled = false;
     userDetails.querySelector(".postcode").disabled = false;
     userDetails.querySelector(".licenseNumber").disabled = false;
@@ -138,7 +140,9 @@ function showUserDetails(userDetails) {
 
 function hideUserDetails(userDetails) {
     let button = userDetails.closest("form").querySelector(".showButton");
-    button.innerText = button.innerText == "Show User" ? "Hide User" : "Show User";
+    if (button) {
+        button.innerText = button.innerText == "Show User" ? "Hide User" : "Show User";
+    }
     userDetails.classList.add("hide");
     userDetails.querySelector(".mobileNumber").disabled = true;
     userDetails.querySelector(".postcode").disabled = true;
